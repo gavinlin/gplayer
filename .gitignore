@@ -1,0 +1,7 @@
+bin/
+obj/
+gen/
+*.swp
+tags
+cscope.files
+cscope.out
