@@ -20,6 +20,7 @@ public class MainBrowserActivity extends BaseBrowserActivity
         extensionToActivity.put("mov", SDLActivity.class);
         extensionToActivity.put("rmvb", SDLActivity.class);
         extensionToActivity.put("avi", SDLActivity.class);
+        extensionToActivity.put("wmv", SDLActivity.class);
     }
 
     @Override
