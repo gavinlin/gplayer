@@ -751,7 +751,12 @@ SWSCALE_FILES := \
 	libswscale/utils.c \
 	libswscale/yuv2rgb.c
 
-
+SWRESAMPLE_FILES := \
+	libswresample/audioconvert.c \
+	libswresample/dither.c \
+	libswresample/rematrix.c \
+	libswresample/resample.c \
+	libswresample/swresample.c 
 
 
 # FFMPEG NEON
@@ -774,13 +779,15 @@ LOCAL_SRC_FILES += $(AVCORE_FILES) \
 									 $(ARM_ARMV6_AVCODEC_FILES) \
 									 $(ARM_VFP_AVCODEC_FILES) \
 									 $(ARM_NEON_AVCODEC_FILES) \
-									 $(SWSCALE_FILES)
+									 $(SWSCALE_FILES) \
+									 $(SWRESAMPLE_FILES)
 
 LOCAL_C_INCLUDES +=$(LOCAL_PATH) \
 	$(LOCAL_PATH)/libavcodec \
 	$(LOCAL_PATH)/libavformat \
 	$(LOCAL_PATH)/libavutil \
 	$(LOCAL_PATH)/libswscale \
+	$(LOCAL_PATH)/libswresample \
 	$(LOCAL_PATH)/libavutil/arm \
 	$(LOCAL_PATH)/include \
 	$(LOCAL_PATH)/include/media/stagefright/openmax 
