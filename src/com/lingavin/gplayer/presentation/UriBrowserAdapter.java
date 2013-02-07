@@ -1,4 +1,4 @@
-package com.lingavin.iplayer.presentation;
+package com.lingavin.gplayer.presentation;
 
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -11,7 +11,7 @@ import android.widget.TextView;
 import java.util.Collections;
 import java.util.List;
 
-import com.lingavin.iplayer.R;
+import com.lingavin.gplayer.R;
 
 public class UriBrowserAdapter extends BaseAdapter
 {

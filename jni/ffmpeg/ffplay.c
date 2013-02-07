@@ -62,6 +62,8 @@
 const char program_name[] = "ffplay";
 const int program_birth_year = 2003;
 
+#define DEBUG_GAVIN
+
 #define MAX_QUEUE_SIZE (15 * 1024 * 1024)
 #define MIN_FRAMES 5
 
@@ -2023,6 +2025,22 @@ static void update_sample_display(VideoState *is, short *samples, int samples_si
 static int synchronize_audio(VideoState *is, int nb_samples)
 {
     int wanted_nb_samples = nb_samples;
+
+#ifdef DEBUG_GAVIN
+	printf("av_sync_type is ");
+	switch (is->av_sync_type):
+	case AV_SYNC_VIDEO_MASTER:
+		printf("AV_SYNC_VIDEO_MASTER \n");
+		break;
+	case AV_SYNC_AUDIO_MASTER:
+		printf("AV_SYNC_AUDIO_MASTER \n");
+		break;
+	case AV_SYNC_EXTERNAL_CLOCK:
+		printf("AV_SYNC_EXTERNAL_CLOCK \n");
+		break;
+	default:
+		printf("error \n");
+#endif
 
     /* if not master, then we try to remove or add samples to correct the clock */
     if (((is->av_sync_type == AV_SYNC_VIDEO_MASTER && is->video_st) ||

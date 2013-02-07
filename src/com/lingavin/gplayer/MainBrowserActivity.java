@@ -1,4 +1,4 @@
-package com.lingavin.iplayer;
+package com.lingavin.gplayer;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -21,6 +21,7 @@ public class MainBrowserActivity extends BaseBrowserActivity
         extensionToActivity.put("rmvb", SDLActivity.class);
         extensionToActivity.put("avi", SDLActivity.class);
         extensionToActivity.put("wmv", SDLActivity.class);
+        extensionToActivity.put("rm", SDLActivity.class);
     }
 
     @Override

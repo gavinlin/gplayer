@@ -8,6 +8,8 @@
 #include <math.h>
 #include <time.h>
 
+#define DEBUG_GAVIN
+
 #define SDL_AUDIO_BUFFER_SIZE 1024
 
 #define MAX_AUDIOQ_SIZE (5 * 16 * 1024)

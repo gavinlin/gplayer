@@ -1,4 +1,4 @@
-package com.lingavin.iplayer;
+package com.lingavin.gplayer;
 
 import android.app.Activity;
 import android.net.Uri;
@@ -14,8 +14,9 @@ import android.widget.TabHost;
 import java.io.File;
 import java.io.FileFilter;
 
-import com.lingavin.iplayer.presentation.BrowserAdapter;
-import com.lingavin.iplayer.presentation.UriBrowserAdapter;
+import com.lingavin.gplayer.presentation.BrowserAdapter;
+import com.lingavin.gplayer.presentation.UriBrowserAdapter;
+import com.lingavin.gplayer.R;
 
 public abstract class BaseBrowserActivity extends Activity
 {

@@ -1,4 +1,4 @@
-package com.lingavin.iplayer.presentation;
+package com.lingavin.gplayer.presentation;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,7 +12,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.util.*;
 
-import com.lingavin.iplayer.R;
+import com.lingavin.gplayer.R;
 
 
 public class BrowserAdapter extends BaseAdapter
