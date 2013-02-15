@@ -1,0 +1,83 @@
+02-13 18:18:52.016: A/libc(10583): Fatal signal 11 (SIGSEGV) at 0x00000019 (code=1)
+02-13 18:18:52.539: I/DEBUG(1478): *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
+02-13 18:18:52.539: I/DEBUG(1478): Build fingerprint: 'Android/full_mini210/mini210:4.0.3/IML74K/eng.root.20120928.094921:eng/test-keys'
+02-13 18:18:52.539: I/DEBUG(1478): pid: 10583, tid: 10583  >>> com.lingavin.gplayer <<<
+02-13 18:18:52.539: I/DEBUG(1478): signal 11 (SIGSEGV), code 1 (SEGV_MAPERR), fault addr 00000019
+02-13 18:18:52.539: I/DEBUG(1478):  r0 00000010  r1 00000011  r2 400b95c0  r3 00000083
+02-13 18:18:52.539: I/DEBUG(1478):  r4 0216fbd8  r5 02160710  r6 beb7d5b4  r7 00000000
+02-13 18:18:52.539: I/DEBUG(1478):  r8 02145818  r9 489e1c54  10 00000000  fp beb7d624
+02-13 18:18:52.539: I/DEBUG(1478):  ip 50dc3de8  sp beb7d5a8  lr 4008bea3  pc 509d3648  cpsr 20000010
+02-13 18:18:52.539: I/DEBUG(1478):  d0  7265747369676520  d1  72626e6f73697261
+02-13 18:18:52.539: I/DEBUG(1478):  d2  6c70672e6e69766c  d3  62696c2f7265796c
+02-13 18:18:52.539: I/DEBUG(1478):  d4  4bafbed84bafbea0  d5  4bafbf484bafbf10
+02-13 18:18:52.539: I/DEBUG(1478):  d6  4bafbfb84bafbf80  d7  000000003f800000
+02-13 18:18:52.539: I/DEBUG(1478):  d8  3f8000003f800000  d9  4447000040800000
+02-13 18:18:52.539: I/DEBUG(1478):  d10 0000000000000000  d11 0000000000000000
+02-13 18:18:52.539: I/DEBUG(1478):  d12 0000000000000000  d13 0000000000000000
+02-13 18:18:52.539: I/DEBUG(1478):  d14 0000000000000000  d15 0000000000000000
+02-13 18:18:52.539: I/DEBUG(1478):  d16 0000000000000000  d17 c05f000000000000
+02-13 18:18:52.539: I/DEBUG(1478):  d18 4020000000000000  d19 0000000000000000
+02-13 18:18:52.539: I/DEBUG(1478):  d20 3ff0000000000000  d21 8000000000000000
+02-13 18:18:52.539: I/DEBUG(1478):  d22 c020000000000000  d23 ff003000a700eb00
+02-13 18:18:52.539: I/DEBUG(1478):  d24 ff003000a700eb00  d25 ff003000a700eb00
+02-13 18:18:52.539: I/DEBUG(1478):  d26 0100010001000100  d27 0100010001000100
+02-13 18:18:52.539: I/DEBUG(1478):  d28 0100010001000100  d29 3ff0000000000000
+02-13 18:18:52.539: I/DEBUG(1478):  d30 0000000000000000  d31 3ff0000000000000
+02-13 18:18:52.539: I/DEBUG(1478):  scr 60000012
+02-13 18:18:52.641: I/DEBUG(1478):          #00  pc 000b3648  /data/data/com.lingavin.gplayer/lib/libffmpeg.so (avformat_open_input)
+02-13 18:18:52.641: I/DEBUG(1478):          #01  pc 0000078c  /data/data/com.lingavin.gplayer/lib/libmediaplayer.so (_ZN11MediaPlayer13setDataSourceEPKc)
+02-13 18:18:52.644: I/DEBUG(1478):          #02  pc 00004a6c  /data/data/com.lingavin.gplayer/lib/libmediaplayer_jni.so
+02-13 18:18:52.644: I/DEBUG(1478):          #03  pc 0001ebf0  /system/lib/libdvm.so (dvmPlatformInvoke)
+02-13 18:18:52.644: I/DEBUG(1478):          #04  pc 00058c30  /system/lib/libdvm.so (_Z16dvmCallJNIMethodPKjP6JValuePK6MethodP6Thread)
+02-13 18:18:52.644: I/DEBUG(1478): code around pc:
+02-13 18:18:52.644: I/DEBUG(1478): 509d3628 e595343c e3510000 e3833080 e585343c  <4....Q..0..<4..
+02-13 18:18:52.644: I/DEBUG(1478): 509d3638 058d1000 05953440 058d3004 0a000024  ....@4...0..$...
+02-13 18:18:52.644: I/DEBUG(1478): 509d3648 e5913008 e3130001 0a000028 e59f2264  .0......(...d"..
+02-13 18:18:52.644: I/DEBUG(1478): 509d3658 e1a00005 e3a01018 e08f2002 ebfe2d79  ......... ..y-..
+02-13 18:18:52.644: I/DEBUG(1478): 509d3668 ea000022 e3510000 0a000003 e5913008  ".....Q......0..
+02-13 18:18:52.644: I/DEBUG(1478): code around lr:
+02-13 18:18:52.644: I/DEBUG(1478): 4008be80 b5104a03 6812447a 680b6811 bd104798  .J..zD.h.h.h.G..
+02-13 18:18:52.644: I/DEBUG(1478): 4008be90 0002d5fc b5104a03 6812447a 684b6811  .....J..zD.h.hKh
+02-13 18:18:52.644: I/DEBUG(1478): 4008bea0 bd104798 0002d5e8 b5104b03 681b447b  .G.......K..{D.h
+02-13 18:18:52.644: I/DEBUG(1478): 4008beb0 6893681a bd104798 0002d5d4 b5104b03  .h.h.G.......K..
+02-13 18:18:52.644: I/DEBUG(1478): 4008bec0 681b447b 68d3681a bd104798 0002d5c0  {D.h.h.h.G......
+02-13 18:18:52.644: I/DEBUG(1478): stack:
+02-13 18:18:52.644: I/DEBUG(1478):     beb7d568  beb7d5b4  [stack]
+02-13 18:18:52.644: I/DEBUG(1478):     beb7d56c  509603c0  /data/data/com.lingavin.gplayer/lib/libffmpeg.so
+02-13 18:18:52.644: I/DEBUG(1478):     beb7d570  00000000  
+02-13 18:18:52.644: I/DEBUG(1478):     beb7d574  509620f8  /data/data/com.lingavin.gplayer/lib/libffmpeg.so
+02-13 18:18:52.644: I/DEBUG(1478):     beb7d578  02160710  [heap]
+02-13 18:18:52.648: I/DEBUG(1478):     beb7d57c  beb7d5b4  [stack]
+02-13 18:18:52.648: I/DEBUG(1478):     beb7d580  00000000  
+02-13 18:18:52.648: I/DEBUG(1478):     beb7d584  00000000  
+02-13 18:18:52.648: I/DEBUG(1478):     beb7d588  0216fbd8  [heap]
+02-13 18:18:52.648: I/DEBUG(1478):     beb7d58c  02160710  [heap]
+02-13 18:18:52.648: I/DEBUG(1478):     beb7d590  beb7d5b4  [stack]
+02-13 18:18:52.648: I/DEBUG(1478):     beb7d594  00000000  
+02-13 18:18:52.648: I/DEBUG(1478):     beb7d598  02145818  [heap]
+02-13 18:18:52.648: I/DEBUG(1478):     beb7d59c  489e1c54  
+02-13 18:18:52.648: I/DEBUG(1478):     beb7d5a0  df0027ad  
+02-13 18:18:52.648: I/DEBUG(1478):     beb7d5a4  00000000  
+02-13 18:18:52.648: I/DEBUG(1478): #00 beb7d5a8  489e1c54  
+02-13 18:18:52.648: I/DEBUG(1478):     beb7d5ac  50049151  /data/dalvik-cache/data@app@com.lingavin.gplayer-1.apk@classes.dex
+02-13 18:18:52.648: I/DEBUG(1478):     beb7d5b0  beb7d624  [stack]
+02-13 18:18:52.648: I/DEBUG(1478):     beb7d5b4  00000000  
+02-13 18:18:52.648: I/DEBUG(1478):     beb7d5b8  00000000  
+02-13 18:18:52.648: I/DEBUG(1478):     beb7d5bc  0216fbd8  [heap]
+02-13 18:18:52.648: I/DEBUG(1478):     beb7d5c0  00000000  
+02-13 18:18:52.648: I/DEBUG(1478):     beb7d5c4  00000000  
+02-13 18:18:52.648: I/DEBUG(1478):     beb7d5c8  40fcb8c8  /dev/ashmem/dalvik-heap (deleted)
+02-13 18:18:52.648: I/DEBUG(1478):     beb7d5cc  4d2ab84c  /data/data/com.lingavin.gplayer/lib/libmediaplayer.so
+02-13 18:18:52.648: I/DEBUG(1478):     beb7d5d0  02145818  [heap]
+02-13 18:18:52.648: I/DEBUG(1478):     beb7d5d4  0216fbd8  [heap]
+02-13 18:18:52.648: I/DEBUG(1478):     beb7d5d8  02145818  [heap]
+02-13 18:18:52.648: I/DEBUG(1478):     beb7d5dc  beb7d610  [stack]
+02-13 18:18:52.648: I/DEBUG(1478):     beb7d5e0  50049151  /data/dalvik-cache/data@app@com.lingavin.gplayer-1.apk@classes.dex
+02-13 18:18:52.648: I/DEBUG(1478):     beb7d5e4  4d2ab790  /data/data/com.lingavin.gplayer/lib/libmediaplayer.so
+02-13 18:18:52.648: I/DEBUG(1478): #01 beb7d5e8  01fc82c8  [heap]
+02-13 18:18:52.648: I/DEBUG(1478):     beb7d5ec  0216fbd8  [heap]
+02-13 18:18:52.652: I/DEBUG(1478):     beb7d5f0  40fd1cb0  /dev/ashmem/dalvik-heap (deleted)
+02-13 18:18:52.652: I/DEBUG(1478):     beb7d5f4  500a7a70  /data/data/com.lingavin.gplayer/lib/libmediaplayer_jni.so
+02-13 18:18:53.840: I/WindowManager(1670): WIN DEATH: Window{411ffaa8 com.lingavin.gplayer/com.lingavin.gplayer.MainBrowserActivity paused=false}
+02-13 18:18:53.840: I/ActivityManager(1670): Process com.lingavin.gplayer (pid 10583) has died.
+

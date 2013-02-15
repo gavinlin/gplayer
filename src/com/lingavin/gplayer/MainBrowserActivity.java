@@ -8,20 +8,18 @@ import java.io.File;
 import java.io.FileFilter;
 import java.util.HashMap;
 
-import org.libsdl.app.SDLActivity;
-
 public class MainBrowserActivity extends BaseBrowserActivity
 {
     private final static HashMap<String, Class<? extends Activity>> extensionToActivity = new HashMap<String, Class<? extends Activity>>();
 
     static
     {
-        extensionToActivity.put("mp4", SDLActivity.class);
-        extensionToActivity.put("mov", SDLActivity.class);
-        extensionToActivity.put("rmvb", SDLActivity.class);
-        extensionToActivity.put("avi", SDLActivity.class);
-        extensionToActivity.put("wmv", SDLActivity.class);
-        extensionToActivity.put("rm", SDLActivity.class);
+        extensionToActivity.put("mp4", GPlayerActivity.class);
+        extensionToActivity.put("mov", GPlayerActivity.class);
+        extensionToActivity.put("rmvb", GPlayerActivity.class);
+        extensionToActivity.put("avi", GPlayerActivity.class);
+        extensionToActivity.put("wmv", GPlayerActivity.class);
+        extensionToActivity.put("rm", GPlayerActivity.class);
     }
 
     @Override
