@@ -11,7 +11,7 @@ import java.util.HashMap;
 public class MainBrowserActivity extends BaseBrowserActivity
 {
     private final static HashMap<String, Class<? extends Activity>> extensionToActivity = new HashMap<String, Class<? extends Activity>>();
-
+    
     static
     {
         extensionToActivity.put("mp4", GPlayerActivity.class);

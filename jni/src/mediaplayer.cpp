@@ -40,11 +40,23 @@ MediaPlayer::~MediaPlayer(){
 }
 
 void MediaPlayer::decode(uint8_t* buffer, int buffer_size){
-	TRACE("decode audio data %d",buffer_size);
+	// TRACE("decode audio data %d",buffer_size);
 	int ret;
 	if(ret = (Output::AudioDriver_write(buffer, buffer_size)) <= 0){
 		ERROR("couldn't write buffers to audio track ret is %d", ret);
 	}
+}
+
+void MediaPlayer::decode(AVFrame *frame, double pts){
+	
+	sws_scale(sPlayer->img_convert_ctx,
+			frame->data,
+			frame->linesize,
+			0,
+			sPlayer->mVideoHeight,
+			sPlayer->mFrame->data,
+			sPlayer->mFrame->linesize);
+	Output::VideoDriver_updateSurface();
 }
 
 void MediaPlayer::decodeMovie(void* ptr){
@@ -55,22 +67,28 @@ void MediaPlayer::decodeMovie(void* ptr){
 	mDecoderAudio->startAsync();
 
 	//start video thread
+	mDecoderVideo = new DecoderVideo(video_st);
+	mDecoderVideo->onDecode = decode;
+	mDecoderVideo->startAsync();
 
 	//put packet to queue
 	mCurrentState = MEDIA_PLAYER_STARTED;
-	while(mCurrentState != MEDIA_PALYER_DECODED &&
+	while(mCurrentState != MEDIA_PLAYER_DECODED &&
 			mCurrentState != MEDIA_PLAYER_STOPPED &&
 			mCurrentState != MEDIA_PLAYER_STATE_ERROR){
-		if(mDecoderAudio->packets() > MAX_PLAYER_QUEUE_SIZE){
+		if(mDecoderAudio->packets() > MAX_PLAYER_QUEUE_SIZE &&
+				mDecoderVideo->packets() > MAX_PLAYER_QUEUE_SIZE){
 			usleep(200);
 			continue;
 		}		
 		if(av_read_frame(pFormatCtx, pPacket) < 0){
-			mCurrentState = MEDIA_PALYER_DECODED;
+			mCurrentState = MEDIA_PLAYER_DECODED;
 			continue;
 		}
 
-		if(pPacket->stream_index == mAudioStreamIndex){
+		if(pPacket->stream_index == mVideoStreamIndex){
+			mDecoderVideo->enqueue(pPacket);
+		}else if(pPacket->stream_index == mAudioStreamIndex){
 			mDecoderAudio->enqueue(pPacket);
 		}else{
 			av_free_packet(pPacket);
@@ -174,6 +192,11 @@ status_t MediaPlayer::prepareVideo(){
 
 	video_st = pFormatCtx->streams[mVideoStreamIndex];
 
+	img_convert_ctx = sws_getContext(
+			video_st->codec->width,video_st->codec->height,
+			video_st->codec->pix_fmt,
+			video_st->codec->width,video_st->codec->height,
+			PIX_FMT_RGB565,SWS_FAST_BILINEAR,NULL,NULL,NULL);
 	void* pixels;
 	if(Output::VideoDriver_getPixels(video_st->codec->width,
 										video_st->codec->height,
@@ -186,6 +209,12 @@ status_t MediaPlayer::prepareVideo(){
 		return INVALID_OPERATION;
 	}
 	TRACE("prepare video successed");
+		avpicture_fill((AVPicture *) mFrame,
+				   (uint8_t *) pixels,
+				   PIX_FMT_RGB565,
+				   video_st->codec->width,
+				   video_st->codec->height);
+
 	return NO_ERROR;
 }
 
@@ -221,6 +250,7 @@ status_t MediaPlayer::prepareAudio(){
 									: CHANNEL_OUT_MONO) != 0){
 		return INVALID_OPERATION;
 	}
+	ERROR("set audio track successed");
 	if(Output::AudioDriver_start() != 0){
 		return INVALID_OPERATION;
 	}

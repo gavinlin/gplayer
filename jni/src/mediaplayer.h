@@ -33,7 +33,7 @@ enum media_player_status{
 	MEDIA_PLAYER_INITIALIZED       = 1 << 1,
 	MEDIA_PLAYER_PREPARING         = 1 << 2,
 	MEDIA_PLAYER_PREPARED          = 1 << 3,
-	MEDIA_PALYER_DECODED           = 1 << 4,
+	MEDIA_PLAYER_DECODED           = 1 << 4,
 	MEDIA_PLAYER_STARTED           = 1 << 5,
 	MEDIA_PLAYER_PAUSED            = 1 << 6,
 	MEDIA_PLAYER_STOPPED           = 1 << 7,
@@ -67,7 +67,7 @@ class MediaPlayer{
 		pthread_t mPlayerThread;
 		pthread_mutex_t mLock;
 		DecoderAudio *mDecoderAudio;
-//		DecoderVideo mDecoderVideo;
+		DecoderVideo *mDecoderVideo;
 
 		static void* startPlayer(void* ptr);
 		void decodeMovie(void* ptr);
@@ -75,6 +75,7 @@ class MediaPlayer{
 		status_t prepareVideo();
 		status_t prepareAudio();
 		static void decode(uint8_t* buffer, int buffer_size);
+		static void decode(AVFrame *frame, double pts);
 };
 
 #endif //_GPLAYER_MEDIAPLAYER_H

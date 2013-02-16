@@ -97,6 +97,7 @@ int AndroidAudioTrack_set(int streamType,
 	if (ret != NO_ERROR) {
 		return ANDROID_AUDIOTRACK_RESULT_ERRNO;
 	}
+	__android_log_print(ANDROID_LOG_INFO, TAG, "setting audio track successed");
 	return ANDROID_AUDIOTRACK_RESULT_SUCCESS;
 }
 
