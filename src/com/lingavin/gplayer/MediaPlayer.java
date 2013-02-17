@@ -55,7 +55,6 @@ public class MediaPlayer{
 
 	public void suspend() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	public void resume() {

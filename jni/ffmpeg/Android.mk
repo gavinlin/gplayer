@@ -754,7 +754,7 @@ SWSCALE_FILES := \
 	libswscale/yuv2rgb.c \
 	libswscale/arm/yuv2rgb16tab.c \
 	libswscale/arm/yuv2rgb_arm.c \
-	libswscale/arm/yuv420rgb565c.c 
+	libswscale/arm/yuv420rgb565.S 
 
 SWRESAMPLE_FILES := \
 	libswresample/audioconvert.c \
