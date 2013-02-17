@@ -751,7 +751,10 @@ SWSCALE_FILES := \
 	libswscale/input.c \
 	libswscale/swscale_unscaled.c \
 	libswscale/utils.c \
-	libswscale/yuv2rgb.c
+	libswscale/yuv2rgb.c \
+	libswscale/arm/yuv2rgb16tab.c \
+	libswscale/arm/yuv2rgb_arm.c \
+	libswscale/arm/yuv420rgb565c.c 
 
 SWRESAMPLE_FILES := \
 	libswresample/audioconvert.c \
@@ -768,7 +771,6 @@ LOCAL_MODULE := ffmpeg
 LOCAL_LDLIBS += -llog -lz -lm
 LOCAL_CFLAGS += -DHAVE_AV_CONFIG_H -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -DPIC -DHAVE_SYS_UIO_H=1 -DANDROID
 LOCAL_CFLAGS += $(CC_OPTIMIZE_FLAG)
-LOCAL_CFLAGS += -DVPLAYER_NEON
 LOCAL_CFLAGS += -march=armv7-a -mfpu=neon -mfloat-abi=softfp -mvectorize-with-neon-quad
 LOCAL_CXXFLAGS += -D__STDC_CONSTANT_MACROS
 LOCAL_LDFLAGS += -Wl,--fix-cortex-a8

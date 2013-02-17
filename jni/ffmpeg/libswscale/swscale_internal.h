@@ -544,6 +544,7 @@ SwsFunc ff_yuv2rgb_init_mmx(SwsContext *c);
 SwsFunc ff_yuv2rgb_init_vis(SwsContext *c);
 SwsFunc ff_yuv2rgb_init_altivec(SwsContext *c);
 SwsFunc ff_yuv2rgb_get_func_ptr_bfin(SwsContext *c);
+SwsFunc ff_yuv2rgb_init_armv5te(SwsContext *c);
 void ff_bfin_get_unscaled_swscale(SwsContext *c);
 
 #if FF_API_SWS_FORMAT_NAME
