@@ -29,6 +29,7 @@ public class MediaPlayer{
 	private static native final void nativeInit();
 	private native void nativeSetup();
 	private native void nativeStart();
+	private native void nativeSuspend();
 	
 	public void setPath(String mFilePath) {
 		setDataSource(mFilePath);
@@ -54,7 +55,7 @@ public class MediaPlayer{
 	}
 
 	public void suspend() {
-		// TODO Auto-generated method stub
+		nativeSuspend();
 	}
 
 	public void resume() {

@@ -273,3 +273,26 @@ status_t MediaPlayer::prepare(){
 	return NO_ERROR;
 }
 
+status_t MediaPlayer::suspend(){
+	TRACE("suspend");
+	mCurrentState = MEDIA_PLAYER_STOPPED;
+	if(mDecoderAudio != NULL){
+		mDecoderAudio->stop();
+	}
+	if(mDecoderVideo != NULL){
+		mDecoderVideo->stop();
+	}
+	if(pthread_join(mPlayerThread, NULL) != 0){
+		ERROR("stop playerthread error");
+	}
+
+	delete mDecoderAudio;
+	delete mDecoderVideo;
+
+	av_close_input_file(pFormatCtx);
+
+	Output::AudioDriver_unregister();
+	Output::VideoDriver_unregister();
+	TRACE("suspend successed");
+	return NO_ERROR;
+}

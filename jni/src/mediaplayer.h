@@ -50,6 +50,7 @@ class MediaPlayer{
 		status_t setVideoSurface(JNIEnv *env, jobject jsurface);
 		status_t prepare();
 		status_t start();
+		status_t suspend();
 
 	private:
 		media_player_status mCurrentState;
