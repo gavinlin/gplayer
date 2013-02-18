@@ -50,6 +50,11 @@ static void com_lingavin_gplayer_MediaPlayer_nativeSetup(JNIEnv* env,jobject thi
 }
 
 /********************************************************/
+static jboolean com_lingavin_gplayer_MediaPlayer_nativeIsPlaying(JNIEnv *env, jobject thiz){
+	MediaPlayer *mp = getMediaPlayer(env, thiz);
+	return mp->isPlaying();
+}
+
 
 static void com_lingavin_gplayer_MediaPlayer_nativeSuspend(JNIEnv *env, jobject thiz){
 	MediaPlayer *mp = getMediaPlayer(env, thiz);
@@ -133,6 +138,7 @@ static JNINativeMethod gMethods[] = {
 	{"nativePrepare", "()V", (void *)com_lingavin_gplayer_MediaPlayer_nativePrepare},
 	{"nativeStart", "()V", (void *)com_lingavin_gplayer_MediaPlayer_nativeStart},
 	{"nativeSuspend", "()V", (void *)com_lingavin_gplayer_MediaPlayer_nativeSuspend},
+	{"nativeIsPlaying", "()Z", (void *)com_lingavin_gplayer_MediaPlayer_nativeIsPlaying},
 };
 
 int register_com_lingavin_gplayer_mediaplayer(JNIEnv* env){

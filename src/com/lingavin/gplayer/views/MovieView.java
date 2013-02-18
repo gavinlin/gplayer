@@ -68,6 +68,7 @@ public class MovieView extends SurfaceView {
     public boolean onTouchEvent(android.view.MotionEvent event) {
     	if(!mMediaController.isShowing()) {
 			mMediaController.show(3000);
+			mMediaController.setEnabled(true);
 		}
 		return true;
     }
@@ -88,6 +89,7 @@ public class MovieView extends SurfaceView {
 		
 		@Override
 		public void pause() {
+			Log.i("gavin", "pause!!!!!!!!!!");
 			mp.pause();
 		}
 		
@@ -128,7 +130,7 @@ public class MovieView extends SurfaceView {
 		@Override
 		public boolean canPause() {
 			// TODO Auto-generated method stub
-			return false;
+			return true;
 		}
 	};
 	

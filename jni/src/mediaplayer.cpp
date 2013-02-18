@@ -196,7 +196,7 @@ status_t MediaPlayer::prepareVideo(){
 			video_st->codec->width,video_st->codec->height,
 			video_st->codec->pix_fmt,
 			video_st->codec->width,video_st->codec->height,
-			PIX_FMT_RGB565,SWS_FAST_BILINEAR,NULL,NULL,NULL);
+			PIX_FMT_RGB565,SWS_POINT,NULL,NULL,NULL);
 	void* pixels;
 	if(Output::VideoDriver_getPixels(video_st->codec->width,
 										video_st->codec->height,
@@ -251,9 +251,9 @@ status_t MediaPlayer::prepareAudio(){
 		return INVALID_OPERATION;
 	}
 	ERROR("set audio track successed");
-//	if(Output::AudioDriver_start() != 0){
-//		return INVALID_OPERATION;
-//	}
+	if(Output::AudioDriver_start() != 0){
+		return INVALID_OPERATION;
+	}
 
 	return NO_ERROR;
 }
@@ -296,3 +296,8 @@ status_t MediaPlayer::suspend(){
 	TRACE("suspend successed");
 	return NO_ERROR;
 }
+
+bool MediaPlayer::isPlaying(){
+	return mCurrentState == MEDIA_PLAYER_STARTED ? true : false;
+}
+

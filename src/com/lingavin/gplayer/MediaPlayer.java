@@ -30,6 +30,8 @@ public class MediaPlayer{
 	private native void nativeSetup();
 	private native void nativeStart();
 	private native void nativeSuspend();
+//	private native int nativeSuspendOrResume(boolean isSuspend);
+	private native boolean nativeIsPlaying();
 	
 	public void setPath(String mFilePath) {
 		setDataSource(mFilePath);
@@ -69,8 +71,7 @@ public class MediaPlayer{
 	}
 
 	public boolean isPlaying() {
-		// TODO Auto-generated method stub
-		return false;
+		return nativeIsPlaying();
 	}
 
 	public int getDuration() {

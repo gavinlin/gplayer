@@ -25,7 +25,6 @@
 #include <binder/MemoryBase.h>
 
 #define TAG "AudioTrackWrapper"
-#define BUFZ (4800*4)
 using namespace android;
 
 //struct audiotrack_fields_t {
@@ -88,7 +87,7 @@ int AndroidAudioTrack_set(int streamType,
 							  sampleRate, 
 							  format, 
 							  channels, 
-							  BUFZ, 
+							  0, 
 							  0,
 							  0, 
 							  0,

@@ -51,6 +51,7 @@ class MediaPlayer{
 		status_t prepare();
 		status_t start();
 		status_t suspend();
+		bool isPlaying();
 
 	private:
 		media_player_status mCurrentState;
