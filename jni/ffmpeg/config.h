@@ -163,7 +163,7 @@
 #define HAVE_WINSOCK2_H 0
 #define HAVE_XFORM_ASM 0
 #define HAVE_XMM_CLOBBERS 0
-#define HAVE_YASM 0
+#define HAVE_YASM 1
 #define CONFIG_BSFS 1
 #define CONFIG_DECODERS 1
 #define CONFIG_DEMUXERS 1

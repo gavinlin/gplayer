@@ -251,9 +251,9 @@ status_t MediaPlayer::prepareAudio(){
 		return INVALID_OPERATION;
 	}
 	ERROR("set audio track successed");
-	if(Output::AudioDriver_start() != 0){
-		return INVALID_OPERATION;
-	}
+//	if(Output::AudioDriver_start() != 0){
+//		return INVALID_OPERATION;
+//	}
 
 	return NO_ERROR;
 }
