@@ -18,16 +18,23 @@
 #include <stdlib.h>
 #include "videodecoder.h"
 #include "trace.h"
+#include "output.h"
 
 static uint64_t global_video_pkt_pts = AV_NOPTS_VALUE;
 
 DecoderVideo::DecoderVideo(AVStream *stream) : IDecoder(stream){
 	mStream->codec->get_buffer = getBuffer;
 	mStream->codec->release_buffer = releaseBuffer;
+	pthread_mutex_init(&pictq_mutex, NULL);
+	pthread_cond_init(&pictq_cond, NULL);
+	pictq_size = 0;
+	pictq_windex = 0;
+	pictq_rindex = 0;
 }
 
 DecoderVideo::~DecoderVideo(){
-
+	pthread_mutex_destroy(&pictq_mutex);
+	pthread_cond_destroy(&pictq_cond);
 }
 
 bool DecoderVideo::prepare(){
@@ -81,11 +88,11 @@ bool DecoderVideo::process(AVPacket *packet)
 	if (completed) {
 		pts = synchronize(mFrame, pts);
 
-		onDecode(mFrame, pts);
-
-		return true;
+		//onDecode(mFrame, pts);
+		if(queue_picture(mFrame, pts) < 0)
+			return false;
 	}
-	return false;
+	return true;
 }
 
 bool DecoderVideo::decode(void* ptr)
@@ -93,7 +100,11 @@ bool DecoderVideo::decode(void* ptr)
 	AVPacket        pPacket;
 	
 	TRACE( "decoding video");
-	
+	if(Output::VideoDriver_getPixels(mStream->codec->width,
+				mStream->codec->height,
+				&pixels) != 0){
+		return false;
+	}
     while(mRunning)
     {
         if(mQueue->get(&pPacket, true) < 0)
@@ -104,8 +115,8 @@ bool DecoderVideo::decode(void* ptr)
         if(!process(&pPacket))
         {
 			ERROR("process is false");
-            // mRunning = false;
-            // return false;
+             mRunning = false;
+             return false;
         }
         // Free the packet that was allocated by av_read_frame
         av_free_packet(&pPacket);
@@ -117,6 +128,33 @@ bool DecoderVideo::decode(void* ptr)
     av_free(mFrame);
 
     return true;
+}
+
+int DecoderVideo::queue_picture(AVFrame* pFrame, double pts){
+	VideoPicture *vp;
+	int dst_pix_fmt;
+	AVPicture pict;
+
+	pthread_mutex_lock(&pictq_mutex);
+	while(pictq_size >= VIDEO_PICTURE_QUEUE_SIZE && mRunning){
+		pthread_cond_wait(&pictq_cond,&pictq_mutex);
+		waitOnNotify();
+	}
+	pthread_mutex_unlock(&pictq_mutex);
+
+	if(!mRunning){
+		return -1;
+	}
+
+	vp = &pictq[pictq_windex];
+
+	if(vp->width != mStream->codec->width ||
+			vp->height != mStream->codec->height){
+		vp->width = mStream->codec->width;
+		vp->height = mStream->codec->height;
+		
+	}
+
 }
 
 

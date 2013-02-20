@@ -41,7 +41,8 @@ LOCAL_SRC_FILES += \
 	output.cpp \
 	audiotrack.cpp \
 	surface.cpp \
-	packetqueue.cpp
+	packetqueue.cpp \
+	refreshthread.cpp
 
 LOCAL_SHARED_LIBRARIES := ffmpeg MEDIA SURFACEFLINGER SKIA GUI BINDER UTILS
 

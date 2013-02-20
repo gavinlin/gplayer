@@ -61,6 +61,12 @@ void Thread::waitOnNotify(){
 	pthread_mutex_unlock(&mLock);
 }
 
+void Thread::notify(){
+	pthread_mutex_lock(&mLock);
+	pthread_cond_signal(&mCondition);
+	pthread_mutex_unlock(&mLock);
+}
+
 void Thread::handleRun(void* ptr){
 
 }

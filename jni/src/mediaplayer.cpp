@@ -39,6 +39,10 @@ MediaPlayer::MediaPlayer(){
 MediaPlayer::~MediaPlayer(){
 }
 
+int MediaPlayer::getAudioClock(){
+	return sPlayer->mDecoderAudio->audio_clock;
+}
+
 void MediaPlayer::decode(uint8_t* buffer, int buffer_size){
 	// TRACE("decode audio data %d",buffer_size);
 	int ret;
@@ -70,6 +74,7 @@ void MediaPlayer::decodeMovie(void* ptr){
 	mDecoderVideo = new DecoderVideo(video_st);
 	mDecoderVideo->onDecode = decode;
 	mDecoderVideo->startAsync();
+	mDecoderVideo->audioClock = getAudioClock;
 
 	//put packet to queue
 	mCurrentState = MEDIA_PLAYER_STARTED;
@@ -296,6 +301,7 @@ status_t MediaPlayer::suspend(){
 	TRACE("suspend successed");
 	return NO_ERROR;
 }
+
 
 bool MediaPlayer::isPlaying(){
 	return mCurrentState == MEDIA_PLAYER_STARTED ? true : false;

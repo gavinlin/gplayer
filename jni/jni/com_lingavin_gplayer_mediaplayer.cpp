@@ -53,6 +53,7 @@ static void com_lingavin_gplayer_MediaPlayer_nativeSetup(JNIEnv* env,jobject thi
 static jboolean com_lingavin_gplayer_MediaPlayer_nativeIsPlaying(JNIEnv *env, jobject thiz){
 	MediaPlayer *mp = getMediaPlayer(env, thiz);
 	return mp->isPlaying();
+
 }
 
 
