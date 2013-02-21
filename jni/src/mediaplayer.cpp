@@ -72,9 +72,13 @@ void MediaPlayer::decodeMovie(void* ptr){
 
 	//start video thread
 	mDecoderVideo = new DecoderVideo(video_st);
-	mDecoderVideo->onDecode = decode;
 	mDecoderVideo->startAsync();
-	mDecoderVideo->audioClock = getAudioClock;
+
+	//start video refresh thread
+	mRefreshThread = new RefreshThread(mDecoderVideo);
+	mRefreshThread->onDecode = decode;
+	mRefreshThread->audioClock = getAudioClock;
+	mRefreshThread->startAsync();
 
 	//put packet to queue
 	mCurrentState = MEDIA_PLAYER_STARTED;

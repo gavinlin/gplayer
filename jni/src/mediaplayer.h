@@ -24,6 +24,7 @@
 #include "trace.h"
 #include "videodecoder.h"
 #include "audiodecoder.h"
+#include "refreshthread.h"
 
 using namespace android;
 
@@ -70,6 +71,7 @@ class MediaPlayer{
 		pthread_mutex_t mLock;
 		DecoderAudio *mDecoderAudio;
 		DecoderVideo *mDecoderVideo;
+		RefreshThread *mRefreshThread;
 
 		static void* startPlayer(void* ptr);
 		void decodeMovie(void* ptr);

@@ -19,13 +19,12 @@
 #define _GPLAYER_DECODER_VIDEO_H
 
 #include "decoder.h"
+//#include "refreshthread.h"
 
-typedef void (*VideoDecodingHandler)(AVFrame*, double);
-typedef int (*GetAudioClockHandler)(void);
 
 #define VIDEO_PICTURE_QUEUE_SIZE 2
 typedef struct VideoPicture{
-	AVPicture *bmp;
+	AVFrame *bmp;
 	int width, height;
 	int allocated;
 	double pts;
@@ -36,9 +35,6 @@ class DecoderVideo : public IDecoder{
 		DecoderVideo(AVStream* stream);
 		~DecoderVideo();
 
-		VideoDecodingHandler onDecode;
-		GetAudioClockHandler audioClock;
-	protected:
 		VideoPicture pictq[VIDEO_PICTURE_QUEUE_SIZE];
 		int pictq_size,pictq_rindex,pictq_windex;
 		pthread_mutex_t pictq_mutex;
@@ -47,7 +43,8 @@ class DecoderVideo : public IDecoder{
 
 	private:
 		AVFrame* mFrame;
-		void* pixels;
+		struct SwsContext *img_convert_ctx;
+		// RefreshThread* mRefreshThread;
 
 		bool prepare();
 		double synchronize(AVFrame *src_frame, double pts);

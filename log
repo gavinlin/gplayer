@@ -1,106 +1,161 @@
-02-16 08:55:31.025: I/gPlayer(1830): startThread
-02-16 08:55:31.025: I/gPlayer(1830): decoder mRunning is 1
-02-16 08:55:31.035: I/gPlayer(1830): decoding video
-02-16 08:55:31.035: E/gPlayer(1830): handleRun
-02-16 08:55:31.035: I/gPlayer(1830): decoder mRunning is 1
-02-16 08:55:31.045: E/gPlayer(1830): process video
-02-16 08:55:31.125: I/Process(82): Sending signal. PID: 1830 SIG: 3
-02-16 08:55:31.125: I/dalvikvm(1830): threadid=3: reacting to signal 3
-02-16 08:55:31.335: E/gPlayer(1830): len1 is 1628 completed is 0
-02-16 08:55:31.335: E/gPlayer(1830): process is false
-02-16 08:55:31.335: E/gPlayer(1830): process video
-02-16 08:55:31.565: I/dalvikvm(1830): Wrote stack traces to '/data/anr/traces.txt'
-02-16 08:55:31.625: E/gPlayer(1830): len1 is 4086 completed is 1
-02-16 08:55:31.635: A/libc(1830): Fatal signal 11 (SIGSEGV) at 0xe6000008 (code=1)
-02-16 08:55:31.725: I/ActivityManager(82): Displayed com.lingavin.gplayer/.GPlayerActivity: +1s614ms
-02-16 08:55:32.134: I/DEBUG(34): *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
-02-16 08:55:32.134: I/DEBUG(34): Build fingerprint: 'generic/sdk/generic:4.0.4/MR1/302030:eng/test-keys'
-02-16 08:55:32.134: I/DEBUG(34): pid: 1830, tid: 1846  >>> com.lingavin.gplayer <<<
-02-16 08:55:32.134: I/DEBUG(34): signal 11 (SIGSEGV), code 1 (SEGV_MAPERR), fault addr e6000008
-02-16 08:55:32.134: I/DEBUG(34):  r0 e6000000  r1 00000350  r2 000001e0  r3 00000000
-02-16 08:55:32.134: I/DEBUG(34):  r4 e6000000  r5 00000350  r6 000001e0  r7 48837070
-02-16 08:55:32.134: I/DEBUG(34):  r8 00000001  r9 00000350  10 000001e0  fp 00000001
-02-16 08:55:32.134: I/DEBUG(34):  ip 48d3ce4c  sp 49454dd8  lr 48d2cc48  pc 486e7260  cpsr a0000010
-02-16 08:55:32.145: I/DEBUG(34):  d0  7c7c7c7c7c7c7c7c  d1  7c7c7c7c7c7c7c7c
-02-16 08:55:32.145: I/DEBUG(34):  d2  0000000000000000  d3  0000000000000000
-02-16 08:55:32.145: I/DEBUG(34):  d4  007c007c7c7c7c7c  d5  007c007c7c7c7c7c
-02-16 08:55:32.145: I/DEBUG(34):  d6  007c007c7c7c7c7c  d7  007c007c7c7c7c7c
-02-16 08:55:32.145: I/DEBUG(34):  d8  3e8e38e441900000  d9  4440000040a00000
-02-16 08:55:32.145: I/DEBUG(34):  d10 0000000000000000  d11 0000000000000000
-02-16 08:55:32.145: I/DEBUG(34):  d12 0000000000000000  d13 0000000000000000
-02-16 08:55:32.145: I/DEBUG(34):  d14 0000000000000000  d15 0000000000000000
-02-16 08:55:32.145: I/DEBUG(34):  scr 20000012
-02-16 08:55:32.445: I/DEBUG(34):          #00  pc 00342260  /data/data/com.lingavin.gplayer/lib/libffmpeg.so (sws_getCachedContext)
-02-16 08:55:32.445: I/DEBUG(34):          #01  pc 00006c44  /data/data/com.lingavin.gplayer/lib/libmediaplayer.so (_ZN11MediaPlayer6decodeEP7AVFramed)
-02-16 08:55:32.455: I/DEBUG(34):          #02  pc 00007a70  /data/data/com.lingavin.gplayer/lib/libmediaplayer.so (_ZN12DecoderVideo7processEP8AVPacket)
-02-16 08:55:32.455: I/DEBUG(34):          #03  pc 00007744  /data/data/com.lingavin.gplayer/lib/libmediaplayer.so (_ZN12DecoderVideo6decodeEPv)
-02-16 08:55:32.455: I/DEBUG(34):          #04  pc 000075cc  /data/data/com.lingavin.gplayer/lib/libmediaplayer.so (_ZN8IDecoder9handleRunEPv)
-02-16 08:55:32.465: I/DEBUG(34):          #05  pc 000073ec  /data/data/com.lingavin.gplayer/lib/libmediaplayer.so (_ZN6Thread11startThreadEPv)
-02-16 08:55:32.475: I/DEBUG(34):          #06  pc 00012e48  /system/lib/libc.so (__thread_entry)
-02-16 08:55:32.475: I/DEBUG(34):          #07  pc 00012998  /system/lib/libc.so (pthread_create)
-02-16 08:55:32.485: I/DEBUG(34): code around pc:
-02-16 08:55:32.495: I/DEBUG(34): 486e7240 e59da03c e59d8044 059f718c 008f7007  <...D....q...p..
-02-16 08:55:32.495: I/DEBUG(34): 486e7250 02877e96 02877008 e3540000 0a000023  .~...p....T.#...
-02-16 08:55:32.505: I/DEBUG(34): 486e7260 e5943008 e1530005 1a00001e e594300c  .0....S......0..
-02-16 08:55:32.505: I/DEBUG(34): 486e7270 e1530006 1a00001b e5942038 e59d3014  ..S.....8 ...0..
-02-16 08:55:32.505: I/DEBUG(34): 486e7280 e1520003 1a000017 e30439a0 e7943003  ..R......9...0..
-02-16 08:55:32.515: I/DEBUG(34): code around lr:
-02-16 08:55:32.515: I/DEBUG(34): 48d2cc28 e88d0006 e58d000c e58d4010 e58d4014  .........@...@..
-02-16 08:55:32.525: I/DEBUG(34): 48d2cc38 e58d4018 e596001c e5933090 ebfffe99  .@.......0......
-02-16 08:55:32.535: I/DEBUG(34): 48d2cc48 e5953000 e59f1050 e586001c e5932018  .0..P........ ..
-02-16 08:55:32.535: I/DEBUG(34): 48d2cc58 e7931001 e88d0006 e2822020 e58d2008  ........  ... ..
-02-16 08:55:32.535: I/DEBUG(34): 48d2cc68 e1a01007 e2872020 e593001c e1a03004  ....  .......0..
-02-16 08:55:32.535: I/DEBUG(34): memory map around addr e6000008:
-02-16 08:55:32.556: I/DEBUG(34): bebed000-bec02000 [stack]
-02-16 08:55:32.556: I/DEBUG(34): (no map for address)
-02-16 08:55:32.565: I/DEBUG(34): (no map above)
-02-16 08:55:32.565: I/DEBUG(34): stack:
-02-16 08:55:32.565: I/DEBUG(34):     49454d98  ffffffff  
-02-16 08:55:32.575: I/DEBUG(34):     49454d9c  ffffffff  
-02-16 08:55:32.575: I/DEBUG(34):     49454da0  00000000  
-02-16 08:55:32.585: I/DEBUG(34):     49454da4  12f258f6  
-02-16 08:55:32.585: I/DEBUG(34):     49454da8  49454de0  
-02-16 08:55:32.585: I/DEBUG(34):     49454dac  00125730  [heap]
-02-16 08:55:32.595: I/DEBUG(34):     49454db0  49454e80  
-02-16 08:55:32.595: I/DEBUG(34):     49454db4  001dda30  [heap]
-02-16 08:55:32.605: I/DEBUG(34):     49454db8  49454e54  
-02-16 08:55:32.615: I/DEBUG(34):     49454dbc  48d2d3b4  /data/data/com.lingavin.gplayer/lib/libmediaplayer.so
-02-16 08:55:32.615: I/DEBUG(34):     49454dc0  001d8400  [heap]
-02-16 08:55:32.615: I/DEBUG(34):     49454dc4  00000000  
-02-16 08:55:32.625: I/DEBUG(34):     49454dc8  00000001  
-02-16 08:55:32.625: I/DEBUG(34):     49454dcc  4865fd44  /data/data/com.lingavin.gplayer/lib/libffmpeg.so
-02-16 08:55:32.645: I/DEBUG(34):     49454dd0  df0027ad  
-02-16 08:55:32.645: I/DEBUG(34):     49454dd4  00000000  
-02-16 08:55:32.655: I/DEBUG(34): #00 49454dd8  00000000  
-02-16 08:55:32.675: I/DEBUG(34):     49454ddc  00000000  
-02-16 08:55:32.675: I/DEBUG(34):     49454de0  00000064  
-02-16 08:55:32.685: I/DEBUG(34):     49454de4  00000000  
-02-16 08:55:32.696: I/DEBUG(34):     49454de8  00000000  
-02-16 08:55:32.696: I/DEBUG(34):     49454dec  00000000  
-02-16 08:55:32.696: I/DEBUG(34):     49454df0  00000000  
-02-16 08:55:32.706: I/DEBUG(34):     49454df4  48d3d010  /data/data/com.lingavin.gplayer/lib/libmediaplayer.so
-02-16 08:55:32.706: I/DEBUG(34):     49454df8  00212858  [heap]
-02-16 08:55:32.706: I/DEBUG(34):     49454dfc  001dda30  [heap]
-02-16 08:55:32.715: I/DEBUG(34):     49454e00  00000000  
-02-16 08:55:32.715: I/DEBUG(34):     49454e04  00000000  
-02-16 08:55:32.725: I/DEBUG(34):     49454e08  00100000  [heap]
-02-16 08:55:32.735: I/DEBUG(34):     49454e0c  48d2cc48  /data/data/com.lingavin.gplayer/lib/libmediaplayer.so
-02-16 08:55:32.735: I/DEBUG(34): #01 49454e10  00000350  
-02-16 08:55:32.735: I/DEBUG(34):     49454e14  000001e0  
-02-16 08:55:32.735: I/DEBUG(34):     49454e18  0000002c  
-02-16 08:55:32.735: I/DEBUG(34):     49454e1c  00000001  
-02-16 08:55:32.735: I/DEBUG(34):     49454e20  00000000  
-02-16 08:55:32.735: I/DEBUG(34):     49454e24  00000000  
-02-16 08:55:32.745: I/DEBUG(34):     49454e28  00000000  
-02-16 08:55:32.745: I/DEBUG(34):     49454e2c  00000000  
-02-16 08:55:32.745: I/DEBUG(34):     49454e30  3ff00000  
-02-16 08:55:32.745: I/DEBUG(34):     49454e34  001d8400  [heap]
-02-16 08:55:32.745: I/DEBUG(34):     49454e38  000003e8  
-02-16 08:55:32.758: I/DEBUG(34):     49454e3c  00000000  
-02-16 08:55:32.765: I/DEBUG(34):     49454e40  3ff00000  
-02-16 08:55:32.765: I/DEBUG(34):     49454e44  48d2da74  /data/data/com.lingavin.gplayer/lib/libmediaplayer.so
-02-16 08:55:36.685: D/Zygote(37): Process 1830 terminated by signal (11)
-02-16 08:55:36.695: I/WindowManager(82): WIN DEATH: Window{41570508 com.lingavin.gplayer/com.lingavin.gplayer.MainBrowserActivity paused=false}
-02-16 08:55:36.705: I/ActivityManager(82): Process com.lingavin.gplayer (pid 1830) has died.
-02-16 08:55:36.705: W/ActivityManager(82): Force removing ActivityRecord{415712d0 com.lingavin.gplayer/.GPlayerActivity}: app died, no saved state
+02-21 08:27:00.050: I/gPlayer(2087): decoder mRunning is 1
+02-21 08:27:00.080: I/ActivityManager(185): Displayed com.lingavin.gplayer/.GPlayerActivity: +214ms
+02-21 08:27:00.140: A/libc(2087): @@@ ABORTING: INVALID HEAP ADDRESS IN dlfree
+02-21 08:27:00.140: A/libc(2087): Fatal signal 11 (SIGSEGV) at 0xdeadbaad (code=1)
+02-21 08:27:00.540: I/DEBUG(83): *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
+02-21 08:27:00.540: I/DEBUG(83): Build fingerprint: 'rk30sdk/rk30sdk/rk30sdk:4.0.4/IMM76D/eng.gavin.20130122.174229:eng/test-keys'
+02-21 08:27:00.540: I/DEBUG(83): pid: 2087, tid: 2109  >>> com.lingavin.gplayer <<<
+02-21 08:27:00.540: I/DEBUG(83): signal 11 (SIGSEGV), code 1 (SEGV_MAPERR), fault addr deadbaad
+02-21 08:27:00.540: I/DEBUG(83):  r0 deadbaad  r1 00000001  r2 40000000  r3 00000000
+02-21 08:27:00.540: I/DEBUG(83):  r4 00000000  r5 00000027  r6 400d1d40  r7 400e0474
+02-21 08:27:00.540: I/DEBUG(83):  r8 400e05a0  r9 40590000  10 00000000  fp 00000000
+02-21 08:27:00.540: I/DEBUG(83):  ip ffffffff  sp 615f9cb8  lr 400b2f29  pc 400af688  cpsr 68000030
+02-21 08:27:00.540: I/DEBUG(83):  d0  40fe240000000000  d1  3ff00000424a0000
+02-21 08:27:00.540: I/DEBUG(83):  d2  07a7abaaa9a9a9a9  d3  0000000000000008
+02-21 08:27:00.540: I/DEBUG(83):  d4  0000000000000000  d5  bfc6d22c9ff65e76
+02-21 08:27:00.540: I/DEBUG(83):  d6  3cf3cccccccccccd  d7  000000013f800000
+02-21 08:27:00.540: I/DEBUG(83):  d8  3f8000003f800000  d9  8000000000000000
+02-21 08:27:00.540: I/DEBUG(83):  d10 440953e8440413e8  d11 0000000000000000
+02-21 08:27:00.540: I/DEBUG(83):  d12 0000000000000000  d13 0000000000000000
+02-21 08:27:00.540: I/DEBUG(83):  d14 0000000000000000  d15 0000000000000000
+02-21 08:27:00.540: I/DEBUG(83):  d16 0000000003185400  d17 0000000000008000
+02-21 08:27:00.540: I/DEBUG(83):  d18 0000000000012a15  d19 3fe0000000000f78
+02-21 08:27:00.540: I/DEBUG(83):  d20 bc81990000000000  d21 3eba51956d5670dc
+02-21 08:27:00.540: I/DEBUG(83):  d22 3e21ee9e801203a2  d23 bda8fae9be8838d4
+02-21 08:27:00.540: I/DEBUG(83):  d24 3e66376972bea4d0  d25 404c800000000000
+02-21 08:27:00.540: I/DEBUG(83):  d26 3ff0000000000000  d27 bf8d0c1646588a48
+02-21 08:27:00.540: I/DEBUG(83):  d28 c0016d22c9ff65e7  d29 bfc62e42fefa39ef
+02-21 08:27:00.540: I/DEBUG(83):  d30 bc561a893effbcaa  d31 3e005c6110000000
+02-21 08:27:00.540: I/DEBUG(83):  scr 80000012
+02-21 08:27:00.650: I/DEBUG(83):          #00  pc 00017688  /system/lib/libc.so
+02-21 08:27:00.650: I/DEBUG(83):          #01  pc 00013512  /system/lib/libc.so
+02-21 08:27:00.650: I/DEBUG(83):          #02  pc 00015850  /system/lib/libc.so (dlfree)
+02-21 08:27:00.650: I/DEBUG(83):          #03  pc 00015ec8  /system/lib/libc.so (free)
+02-21 08:27:00.650: I/DEBUG(83):          #04  pc 000081b4  /data/data/com.lingavin.gplayer/lib/libmediaplayer.so (_ZN12DecoderVideo13queue_pictureEP7AVFramed)
+02-21 08:27:00.650: I/DEBUG(83):          #05  pc 000083c0  /data/data/com.lingavin.gplayer/lib/libmediaplayer.so (_ZN12DecoderVideo7processEP8AVPacket)
+02-21 08:27:00.650: I/DEBUG(83):          #06  pc 00007e9c  /data/data/com.lingavin.gplayer/lib/libmediaplayer.so (_ZN12DecoderVideo6decodeEPv)
+02-21 08:27:00.650: I/DEBUG(83):          #07  pc 00007d14  /data/data/com.lingavin.gplayer/lib/libmediaplayer.so (_ZN8IDecoder9handleRunEPv)
+02-21 08:27:00.650: I/DEBUG(83):          #08  pc 00007b0c  /data/data/com.lingavin.gplayer/lib/libmediaplayer.so (_ZN6Thread11startThreadEPv)
+02-21 08:27:00.650: I/DEBUG(83):          #09  pc 00012c0c  /system/lib/libc.so (__thread_entry)
+02-21 08:27:00.660: I/DEBUG(83):          #10  pc 00012760  /system/lib/libc.so (pthread_create)
+02-21 08:27:00.660: I/DEBUG(83): code around pc:
+02-21 08:27:00.660: I/DEBUG(83): 400af668 4623b15c 2c006824 e026d1fb b12368db  \.#F$h.,..&..h#.
+02-21 08:27:00.660: I/DEBUG(83): 400af678 21014a17 6011447a 48124798 24002527  .J.!zD.`.G.H'%.$
+02-21 08:27:00.660: I/DEBUG(83): 400af688 f7f57005 2106eb00 eb9cf7f6 460aa901  .p.....!.......F
+02-21 08:27:00.660: I/DEBUG(83): 400af698 f04f2006 94015380 94029303 ef58f7f5  . O..S........X.
+02-21 08:27:00.660: I/DEBUG(83): 400af6a8 4622a905 f7f52002 f7f5ef62 2106eaec  .."F. ..b......!
+02-21 08:27:00.660: I/DEBUG(83): code around lr:
+02-21 08:27:00.660: I/DEBUG(83): 400b2f08 41f0e92d 46804c0c 447c2600 68a56824  -..A.L.F.&|D$h.h
+02-21 08:27:00.660: I/DEBUG(83): 400b2f18 e0076867 300cf9b5 dd022b00 47c04628  gh.....0.+..(F.G
+02-21 08:27:00.660: I/DEBUG(83): 400b2f28 35544306 37fff117 6824d5f4 d1ee2c00  .CT5...7..$h.,..
+02-21 08:27:00.660: I/DEBUG(83): 400b2f38 e8bd4630 bf0081f0 000285d2 41f0e92d  0F..........-..A
+02-21 08:27:00.660: I/DEBUG(83): 400b2f48 fb01b086 9004f602 461f4815 4615460c  .........H.F.F.F
+02-21 08:27:00.660: I/DEBUG(83): memory map around addr deadbaad:
+02-21 08:27:00.660: I/DEBUG(83): bee2d000-bee4e000 [stack]
+02-21 08:27:00.660: I/DEBUG(83): (no map for address)
+02-21 08:27:00.660: I/DEBUG(83): ffff0000-ffff1000 [vectors]
+02-21 08:27:00.660: I/DEBUG(83): stack:
+02-21 08:27:00.660: I/DEBUG(83):     615f9c78  00000001  
+02-21 08:27:00.660: I/DEBUG(83):     615f9c7c  615f9cb8  
+02-21 08:27:00.660: I/DEBUG(83):     615f9c80  400db778  /system/lib/libc.so
+02-21 08:27:00.660: I/DEBUG(83):     615f9c84  0000000c  
+02-21 08:27:00.660: I/DEBUG(83):     615f9c88  400db70c  /system/lib/libc.so
+02-21 08:27:00.660: I/DEBUG(83):     615f9c8c  400e0808  
+02-21 08:27:00.660: I/DEBUG(83):     615f9c90  00000000  
+02-21 08:27:00.660: I/DEBUG(83):     615f9c94  400b2f29  /system/lib/libc.so
+02-21 08:27:00.660: I/DEBUG(83):     615f9c98  00000000  
+02-21 08:27:00.660: I/DEBUG(83):     615f9c9c  615f9ccc  
+02-21 08:27:00.660: I/DEBUG(83):     615f9ca0  400d1d40  /system/lib/libc.so
+02-21 08:27:00.660: I/DEBUG(83):     615f9ca4  400e0474  
+02-21 08:27:00.660: I/DEBUG(83):     615f9ca8  400e05a0  
+02-21 08:27:00.660: I/DEBUG(83):     615f9cac  400b2095  /system/lib/libc.so
+02-21 08:27:00.660: I/DEBUG(83):     615f9cb0  df0027ad  
+02-21 08:27:00.660: I/DEBUG(83):     615f9cb4  00000000  
+02-21 08:27:00.660: I/DEBUG(83): #00 615f9cb8  615f9cb4  
+02-21 08:27:00.660: I/DEBUG(83):     615f9cbc  00000001  
+02-21 08:27:00.660: I/DEBUG(83):     615f9cc0  400d1d24  /system/lib/libc.so
+02-21 08:27:00.660: I/DEBUG(83):     615f9cc4  00000005  
+02-21 08:27:00.660: I/DEBUG(83):     615f9cc8  615f9ce4  
+02-21 08:27:00.660: I/DEBUG(83):     615f9ccc  fffffbdf  
+02-21 08:27:00.660: I/DEBUG(83):     615f9cd0  615f9ce4  
+02-21 08:27:00.660: I/DEBUG(83):     615f9cd4  615f9ce4  
+02-21 08:27:00.660: I/DEBUG(83):     615f9cd8  400d527c  /system/lib/libc.so
+02-21 08:27:00.660: I/DEBUG(83):     615f9cdc  400ab517  /system/lib/libc.so
+02-21 08:27:00.660: I/DEBUG(83): #01 615f9ce0  00000380  
+02-21 08:27:00.660: I/DEBUG(83):     615f9ce4  20404040  
+02-21 08:27:00.660: I/DEBUG(83):     615f9ce8  524f4241  /dev/ashmem/dalvik-mark-stack (deleted)
+02-21 08:27:00.660: I/DEBUG(83):     615f9cec  474e4954  /dev/ashmem/dalvik-heap (deleted)
+02-21 08:27:00.660: I/DEBUG(83):     615f9cf0  4e49203a  /dev/ashmem/dalvik-heap (deleted)
+02-21 08:27:00.660: I/DEBUG(83):     615f9cf4  494c4156  /dev/ashmem/dalvik-heap (deleted)
+02-21 08:27:00.660: I/DEBUG(83):     615f9cf8  45482044  /dev/ashmem/dalvik-heap (deleted)
+02-21 08:27:00.660: I/DEBUG(83):     615f9cfc  41205041  /dev/ashmem/dalvik-heap (deleted)
+02-21 08:27:00.660: I/DEBUG(83):     615f9d00  45524444  /dev/ashmem/dalvik-heap (deleted)
+02-21 08:27:00.660: I/DEBUG(83):     615f9d04  49205353  /dev/ashmem/dalvik-heap (deleted)
+02-21 08:27:00.660: I/DEBUG(83):     615f9d08  6c64204e  
+02-21 08:27:00.660: I/DEBUG(83):     615f9d0c  65657266  
+02-21 08:27:00.660: I/DEBUG(83):     615f9d10  00000000  
+02-21 08:27:00.660: I/DEBUG(83):     615f9d14  400e0474  
+02-21 08:27:00.660: I/DEBUG(83):     615f9d18  00265d78  [heap]
+02-21 08:27:00.660: I/DEBUG(83):     615f9d1c  00000002  
+02-21 08:27:00.660: I/DEBUG(83):     615f9d20  002bc75c  [heap]
+02-21 08:27:00.660: I/DEBUG(83):     615f9d24  400ad869  /system/lib/libc.so
+02-21 08:27:00.660: I/DEBUG(83):     615f9d28  00000000  
+02-21 08:27:00.660: I/DEBUG(83):     615f9d2c  00265d88  [heap]
+02-21 08:27:00.660: I/DEBUG(83):     615f9d30  00265d78  [heap]
+02-21 08:27:00.660: I/DEBUG(83):     615f9d34  00000010  
+02-21 08:27:00.660: I/DEBUG(83):     615f9d38  615f9de8  
+02-21 08:27:00.660: I/DEBUG(83):     615f9d3c  00000002  
+02-21 08:27:00.660: I/DEBUG(83):     615f9d40  002bc75c  [heap]
+02-21 08:27:00.660: I/DEBUG(83):     615f9d44  400adb15  /system/lib/libc.so
+02-21 08:27:00.660: I/DEBUG(83):     615f9d48  00000000  
+02-21 08:27:00.660: I/DEBUG(83):     615f9d4c  002bc75c  [heap]
+02-21 08:27:00.660: I/DEBUG(83):     615f9d50  ffffffb8  
+02-21 08:27:00.660: I/DEBUG(83):     615f9d54  00000000  
+02-21 08:27:00.660: I/DEBUG(83):     615f9d58  615f9de8  
+02-21 08:27:00.660: I/DEBUG(83):     615f9d5c  00000002  
+02-21 08:27:00.660: I/DEBUG(83):     615f9d60  002bc75c  [heap]
+02-21 08:27:00.660: I/DEBUG(83):     615f9d64  400aa360  /system/lib/libc.so
+02-21 08:27:00.660: I/DEBUG(83):     615f9d68  002bc75c  [heap]
+02-21 08:27:00.660: I/DEBUG(83):     615f9d6c  002bc750  [heap]
+02-21 08:27:00.660: I/DEBUG(83):     615f9d70  002bc740  [heap]
+02-21 08:27:00.670: I/DEBUG(83):     615f9d74  00252ab0  [heap]
+02-21 08:27:00.670: I/DEBUG(83):     615f9d78  00000000  
+02-21 08:27:00.670: I/DEBUG(83):     615f9d7c  001aef40  [heap]
+02-21 08:27:00.670: I/DEBUG(83):     615f9d80  00252ab0  [heap]
+02-21 08:27:00.670: I/DEBUG(83):     615f9d84  002bfaf0  [heap]
+02-21 08:27:00.670: I/DEBUG(83):     615f9d88  00252ab0  [heap]
+02-21 08:27:00.670: I/DEBUG(83):     615f9d8c  615f9de8  
+02-21 08:27:00.670: I/DEBUG(83):     615f9d90  000014d2  
+02-21 08:27:00.670: I/DEBUG(83):     615f9d94  5c352810  /data/data/com.lingavin.gplayer/lib/libffmpeg.so
+02-21 08:27:00.670: I/DEBUG(83):     615f9d98  615f9db8  
+02-21 08:27:00.670: I/DEBUG(83):     615f9d9c  002bc758  [heap]
+02-21 08:27:00.670: I/DEBUG(83):     615f9da0  615f9e54  
+02-21 08:27:00.670: I/DEBUG(83):     615f9da4  00259f50  [heap]
+02-21 08:27:00.670: I/DEBUG(83):     615f9da8  5c56edac  /data/data/com.lingavin.gplayer/lib/libffmpeg.so
+02-21 08:27:00.670: I/DEBUG(83):     615f9dac  003770c0  [heap]
+02-21 08:27:00.670: I/DEBUG(83):     615f9db0  615f9de8  
+02-21 08:27:00.670: I/DEBUG(83):     615f9db4  001aef40  [heap]
+02-21 08:27:00.670: I/DEBUG(83):     615f9db8  615f9e80  
+02-21 08:27:00.670: I/DEBUG(83):     615f9dbc  00259f50  [heap]
+02-21 08:27:00.670: I/DEBUG(83):     615f9dc0  615f9e54  
+02-21 08:27:00.670: I/DEBUG(83):     615f9dc4  5ca62ad4  /data/data/com.lingavin.gplayer/lib/libmediaplayer.so
+02-21 08:27:00.670: I/DEBUG(83):     615f9dc8  00270188  [heap]
+02-21 08:27:00.670: I/DEBUG(83):     615f9dcc  00000000  
+02-21 08:27:00.670: I/DEBUG(83):     615f9dd0  00000001  
+02-21 08:27:00.670: I/DEBUG(83):     615f9dd4  5c392df0  /data/data/com.lingavin.gplayer/lib/libffmpeg.so
+02-21 08:27:00.670: I/DEBUG(83):     615f9dd8  00270188  [heap]
+02-21 08:27:00.670: I/DEBUG(83):     615f9ddc  002701c0  [heap]
+02-21 08:27:00.670: I/DEBUG(83):     615f9de0  00000038  
+02-21 08:27:00.670: I/DEBUG(83):     615f9de4  fc77ff83  
+02-21 08:27:00.670: I/DEBUG(83):     615f9de8  400e0598  
+02-21 08:27:00.670: I/DEBUG(83):     615f9dec  002701c0  [heap]
+02-21 08:27:00.670: I/DEBUG(83):     615f9df0  00000038  
+02-21 08:27:00.670: I/DEBUG(83):     615f9df4  400ad855  /system/lib/libc.so
+02-21 08:27:03.450: D/dalvikvm(1599): GC_CONCURRENT freed 349K, 9% free 6925K/7559K, paused 1ms+2ms
+02-21 08:27:03.550: D/Finsky(1599): [1] 5.onFinished: Installation state replication succeeded.
+02-21 08:27:03.630: I/BootReceiver(185): Copying /data/tombstones/tombstone_06 to DropBox (SYSTEM_TOMBSTONE)
+02-21 08:27:03.650: W/InputDispatcher(185): channel '41391e80 com.lingavin.gplayer/com.lingavin.gplayer.MainBrowserActivity (server)' ~ Consumer closed input channel or an error occurred.  events=0x8
+02-21 08:27:03.650: E/InputDispatcher(185): channel '41391e80 com.lingavin.gplayer/com.lingavin.gplayer.MainBrowserActivity (server)' ~ Channel is unrecoverably broken and will be disposed!
+02-21 08:27:03.650: D/Zygote(86): Process 2087 terminated by signal (11)
+02-21 08:27:03.670: D/dalvikvm(185): GC_FOR_ALLOC freed 489K, 14% free 9758K/11271K, paused 32ms
 

@@ -33,10 +33,10 @@ class IDecoder : public Thread{
 		void stop();
 		void enqueue(AVPacket* packet);
 		int packets();
-
-	protected:
 		PacketQueue* mQueue;
 		AVStream* mStream;
+
+	protected:
 
 		virtual bool prepare();
 		virtual bool decode(void* ptr);
