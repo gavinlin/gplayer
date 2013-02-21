@@ -60,6 +60,7 @@ void MediaPlayer::decode(AVFrame *frame, double pts){
 			sPlayer->mVideoHeight,
 			sPlayer->mFrame->data,
 			sPlayer->mFrame->linesize);
+	TRACE("update surface");
 	Output::VideoDriver_updateSurface();
 }
 
@@ -72,13 +73,13 @@ void MediaPlayer::decodeMovie(void* ptr){
 
 	//start video thread
 	mDecoderVideo = new DecoderVideo(video_st);
+	mDecoderVideo->onDecode = decode;
+	mDecoderVideo->audioClock = getAudioClock;
 	mDecoderVideo->startAsync();
 
 	//start video refresh thread
-	mRefreshThread = new RefreshThread(mDecoderVideo);
-	mRefreshThread->onDecode = decode;
-	mRefreshThread->audioClock = getAudioClock;
-	mRefreshThread->startAsync();
+//	mRefreshThread = new RefreshThread(mDecoderVideo);
+//	mRefreshThread->startAsync();
 
 	//put packet to queue
 	mCurrentState = MEDIA_PLAYER_STARTED;

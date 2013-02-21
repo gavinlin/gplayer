@@ -14,6 +14,7 @@ public class MediaPlayer{
 	static{
 		/**注意调用关系*/
 		System.loadLibrary("ffmpeg");
+		System.loadLibrary("SDL");
 		System.loadLibrary("mediaplayer");
 		System.loadLibrary("mediaplayer_jni");
 		nativeInit();

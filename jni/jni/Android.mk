@@ -9,6 +9,7 @@ LOCAL_C_INCLUDES += \
 	$(LOCAL_PATH)/../include/android_ics \
 	$(LOCAL_PATH)/../include/common \
 	$(LOCAL_PATH)/../ffmpeg \
+	$(LOCAL_PATH)/../SDL/include \
 	$(LOCAL_PATH)/../src
 
 LOCAL_SRC_FILES += \

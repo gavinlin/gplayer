@@ -21,12 +21,14 @@ include $(CLEAR_VARS)
 LOCAL_MODULE := mediaplayer
 
 FFMPEG_PATH := ../ffmpeg
+SDL_PATH := ../SDL/include
 
 LOCAL_CFLAGS := -D__STDC_CONSTANT_MACROS
 
 LOCAL_C_INCLUDES += \
 	$(LOCAL_PATH) \
 	$(LOCAL_PATH)/$(FFMPEG_PATH) \
+	$(LOCAL_PATH)/$(SDL_PATH) \
 	$(LOCAL_PATH)/../include/android_ics \
 	$(LOCAL_PATH)/../include/android_ics/core \
 	$(LOCAL_PATH)/../include/common
@@ -41,10 +43,9 @@ LOCAL_SRC_FILES += \
 	output.cpp \
 	audiotrack.cpp \
 	surface.cpp \
-	packetqueue.cpp \
-	refreshthread.cpp
+	packetqueue.cpp 
 
-LOCAL_SHARED_LIBRARIES := ffmpeg MEDIA SURFACEFLINGER SKIA GUI BINDER UTILS
+LOCAL_SHARED_LIBRARIES := ffmpeg SDL MEDIA SURFACEFLINGER SKIA GUI BINDER UTILS
 
 LOCAL_LDLIBS := -llog 
 

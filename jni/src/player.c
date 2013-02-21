@@ -1053,7 +1053,7 @@ int main(int argc, char *argv[]) {
 		return -1;
 	}
 
-	for(;;) {
+	while(mRunning) {
 
 		SDL_WaitEvent(&event);
 		switch(event.type) {

@@ -65,10 +65,10 @@ void RefreshThread::schedule_refresh(int time){
 
 	TRACE("set timer %d",time);
 	struct itimerval value;
-	value.it_value.tv_usec = time * 1000;
 	value.it_value.tv_sec = 0;
-	value.it_interval.tv_usec = 0;
+	value.it_value.tv_usec = time * 1000;
 	value.it_interval.tv_sec = 0;
+	value.it_interval.tv_usec = time * 1000;
 	setitimer(ITIMER_REAL, &value, NULL);
 
 }
