@@ -24,7 +24,7 @@ extern "C"{
 #include "SDL.h"
 #include "SDL_thread.h"
 }
-#define VIDEO_PICTURE_QUEUE_SIZE 1
+#define VIDEO_PICTURE_QUEUE_SIZE 2
 #define AV_SYNC_THRESHOLD 0.01
 #define AV_NOSYNC_THRESHOLE 10.0
 

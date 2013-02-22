@@ -775,6 +775,10 @@ LOCAL_CFLAGS += -march=armv7-a -mfpu=neon -mfloat-abi=softfp -mvectorize-with-ne
 LOCAL_CXXFLAGS += -D__STDC_CONSTANT_MACROS
 LOCAL_LDFLAGS += -Wl,--fix-cortex-a8
 
+TARGET_ARCH_ABI := armeabi-v7a
+LOCAL_ARM_MODE := arm
+LOCAL_ARM_NEON := true
+
 LOCAL_SRC_FILES += $(AVCORE_FILES) \
 									 $(AVUTIL_FILES) \
 									 $(AVFORMAT_FILES) \

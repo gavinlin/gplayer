@@ -10,7 +10,7 @@
  *       Revision:  none
  *       Compiler:  gcc
  *
- *         Author:  YOUR NAME (), 
+ *         Author:  gavin 
  *   Organization:  
  *
  * =====================================================================================
@@ -35,19 +35,11 @@ DecoderVideo::DecoderVideo(AVStream *stream) : IDecoder(stream){
 	mStream->codec->release_buffer = releaseBuffer;
 	pictq_mutex = SDL_CreateMutex();
 	pictq_cond = SDL_CreateCond();
-	// mRefreshThread = new RefreshThread(this);
 	pictq_size = 0;
 	pictq_windex = 0;
 	pictq_rindex = 0;
 	frame_last_delay = 0;
 	frame_last_pts = 0;
-//	signal(SIGALRM, DecoderVideo::sigroutine);
-
-//	img_convert_ctx = sws_getContext(
-//			mStream->codec->width,mStream->codec->height,
-//			mStream->codec->pix_fmt,
-//			mStream->codec->width,mStream->codec->height,
-//			PIX_FMT_RGB565,SWS_POINT,NULL,NULL,NULL);
 	for(int i= 0;i < VIDEO_PICTURE_QUEUE_SIZE;i++){
 		memset(&pictq[i],0,sizeof(VideoPicture));
 	}
@@ -108,7 +100,6 @@ bool DecoderVideo::process(AVPacket *packet)
 	if (completed) {
 		pts = synchronize(mFrame, pts);
 
-		//onDecode(mFrame, pts);
 		if(queue_picture(mFrame, pts) < 0)
 			return false;
 	}
@@ -126,10 +117,7 @@ bool DecoderVideo::decode(void* ptr)
 		TRACE("could not initialize sdl");
 	}
 
-//    SDL_EventState(SDL_ACTIVEEVENT, SDL_IGNORE);
-//    SDL_EventState(SDL_SYSWMEVENT, SDL_IGNORE);
-//    SDL_EventState(SDL_USEREVENT, SDL_IGNORE);
-
+	//we use this thread to handle event
 	mEventThread = SDL_CreateThread(startEventThread,"event_thread",this);
 
 	schedule_refresh(40);
@@ -160,13 +148,11 @@ bool DecoderVideo::decode(void* ptr)
 
 int DecoderVideo::queue_picture(AVFrame* pFrame, double pts){
 	VideoPicture *vp;
-	AVPicture pict;
 
 	SDL_LockMutex(pictq_mutex);
 	while(pictq_size >= VIDEO_PICTURE_QUEUE_SIZE && mRunning){
 		SDL_CondWait(pictq_cond,pictq_mutex);
 	}
-	ERROR("pictq_size is %d %d",pictq_size,__LINE__);
 	SDL_UnlockMutex(pictq_mutex);
 
 	if(!mRunning){
@@ -178,54 +164,26 @@ int DecoderVideo::queue_picture(AVFrame* pFrame, double pts){
 	if(!vp->bmp || 
 			vp->width != mStream->codec->width ||
 			vp->height != mStream->codec->height){
-	ERROR("pictq_size is %d %d",pictq_size,__LINE__);
 		SDL_Event event;
 		vp->allocated = 0;
 		event.type = ALLOC_EVENT;
-		event.user.data1 = NULL;
+		event.user.data1 = vp;
 		SDL_PushEvent(&event);
 
 		SDL_LockMutex(pictq_mutex);
-	ERROR("pictq_size is %d %d",pictq_size,__LINE__);
 		while(!vp->allocated && mRunning){
 			SDL_CondWait(pictq_cond, pictq_mutex);
 		}
 		SDL_UnlockMutex(pictq_mutex);
-	ERROR("pictq_size is %d %d",pictq_size,__LINE__);
-
-
-
 	}
-	ERROR("pictq_size is %d %d",pictq_size,__LINE__);
+
 	if(vp->bmp){
-	ERROR("pictq_size is %d %d",pictq_size,__LINE__);
+		SDL_LockMutex(pictq_mutex);
 
-	SDL_LockMutex(pictq_mutex);
+		memcpy(vp->bmp,pFrame,sizeof(AVFrame));
 
-	pict.data[0] = vp->bmp->data[0];
-	pict.data[1] = vp->bmp->data[1];
-	pict.data[2] = vp->bmp->data[2];
-	pict.linesize[0] = vp->bmp->linesize[0];
-	pict.linesize[1] = vp->bmp->linesize[1];
-	pict.linesize[2] = vp->bmp->linesize[2];
-
-		img_convert_ctx = sws_getCachedContext(
-				img_convert_ctx,
-				vp->width,vp->height,mStream->codec->pix_fmt,
-				vp->width,vp->height,PIX_FMT_RGB565,
-				SWS_POINT,NULL,
-				NULL,NULL
-				);
-
-
-		sws_scale(img_convert_ctx,
-				(const uint8_t * const*)pFrame->data,
-				pFrame->linesize,
-				0,
-				mStream->codec->height,
-				pict.data,
-				pict.linesize);	
 		SDL_UnlockMutex(pictq_mutex);
+
 		vp->pts = pts;
 		if(++pictq_windex == VIDEO_PICTURE_QUEUE_SIZE){
 			pictq_windex = 0;
@@ -234,7 +192,6 @@ int DecoderVideo::queue_picture(AVFrame* pFrame, double pts){
 		pictq_size++;
 		SDL_UnlockMutex(pictq_mutex);
 	}
-	ERROR("pictq_size is %d %d",pictq_size,__LINE__);
 	return 0;
 }
 
@@ -253,16 +210,6 @@ void DecoderVideo::releaseBuffer(struct AVCodecContext *c, AVFrame *pic){
 	avcodec_default_release_buffer(c, pic);
 }
 
-//void DecoderVideo::sigroutine(int signo){
-//			TRACE("you should refresh");
-//			refreshStart = 1;
-////	switch(signo){
-////		case SIGALRM:
-////			break;
-////	}
-////	return;
-//}
-
 uint32_t DecoderVideo::sdl_refresh_timer_cb(uint32_t interval, void *opaque){
 	SDL_Event event;
 	event.type = REFRESH_EVENT;
@@ -272,35 +219,21 @@ uint32_t DecoderVideo::sdl_refresh_timer_cb(uint32_t interval, void *opaque){
 }
 
 void DecoderVideo::schedule_refresh(int time){
-
-	TRACE("set timer %d",time);
-//	struct itimerval value;
-//	value.it_value.tv_sec = 0;
-//	value.it_value.tv_usec = time * 1000;
-//	value.it_interval.tv_sec = 0;
-//	value.it_interval.tv_usec = time * 1000;
-//	setitimer(ITIMER_REAL, &value, NULL);
-
 	SDL_AddTimer(time, sdl_refresh_timer_cb, NULL);
 }
 
 void DecoderVideo::videoDisplay(VideoPicture* vp){
 	if(vp->bmp){
-	TRACE("video display");
-	onDecode(vp->bmp,0);
-//		onDecode(mFrame,0);
+		onDecode(vp->bmp,0);
 	}
 }
 
 void DecoderVideo::video_refresh_timer(void *userdata){
 	VideoPicture *vp;
 	double actual_delay, delay, sync_threshold, ref_clock, diff;
-//	TRACE("refresh timer");
 	if(mStream){
 		if(pictq_size == 0){
-			//schedule_refresh
-//			TRACE("refresh timer no pictq");
-			schedule_refresh(40);
+			schedule_refresh(1);
 		}else{
 			vp = &pictq[pictq_rindex];	
 			video_current_pts = vp->pts;
@@ -346,38 +279,30 @@ void DecoderVideo::video_refresh_timer(void *userdata){
 			SDL_UnlockMutex(pictq_mutex);
 		}
 	} else {
-//		TRACE("refresh timer no stream");
 		schedule_refresh(100);
 	}
 }
 
 void DecoderVideo::alloc_picture(void *userdata){
-	VideoPicture* vp;
-	vp = &pictq[pictq_windex];
-	TRACE("Alloc_picture %d",__LINE__);
-	if(vp->bmp != 0){
-		ERROR("vp->bmp is %p",vp->bmp);
+	VideoPicture* vp = (VideoPicture *)userdata;
+	if(vp->bmp){
 		av_free(vp->bmp);
 	}
 
-	TRACE("Alloc_picture %d",__LINE__);
 	vp->width = mStream->codec->width;
 	vp->height = mStream->codec->height;
 	vp->bmp = avcodec_alloc_frame();
-	TRACE("Alloc_picture %d",__LINE__);
+
 	int numBytes=avpicture_get_size(PIX_FMT_RGB565,
 			mStream->codec->width,
 			mStream->codec->height);
-	TRACE("numBytes is %d",numBytes);
 	uint8_t * buffer = (uint8_t *)av_malloc(numBytes*sizeof(uint8_t));
-	TRACE("Alloc_picture %d",__LINE__);
 	avpicture_fill((AVPicture *)vp->bmp,buffer,
 			PIX_FMT_RGB565,mStream->codec->width,mStream->codec->height);
 	SDL_LockMutex(pictq_mutex);
 	vp->allocated = 1;
 	SDL_CondSignal(pictq_cond);
 	SDL_UnlockMutex(pictq_mutex);
-	TRACE("Alloc_picture %d",__LINE__);
 
 }
 
@@ -391,7 +316,7 @@ int DecoderVideo::startEventThread(void* ptr){
 
 				break;
 			case ALLOC_EVENT:
-				ERROR("ALLOC_EVENT");
+//				ERROR("ALLOC_EVENT");
 				mDecoderVideo->alloc_picture(event.user.data1);
 				break;
 			case REFRESH_EVENT:

@@ -147,5 +147,36 @@ bool DecoderAudio::decode(void* ptr){
 	}	
 }
 
-
+//void DecoderAudio::cbf(int event, void* user, void * info){
+//	if(event != AudioTrack::EVENT_MORE_DATA){
+//		return;
+//	}
+//	AudioTrack::Buffer *buf = (AudioTrack::Buffer*)info;
+//	int len = buf->size;
+//	Uint8 *stream = (Uint8 *)buf->raw;
+//	int len1, audio_size;
+//	DecoderAudio* is = (DecoderAudio* )user;
+//	double pts;
+//
+//	while(len > 0){
+//		if(is->audio_buf_index >= is->audio_buf_size){
+//			audio_size = audio_decode_frame(is, is->audio_buf, sizeof(is->audio_buf), &pts));
+//			if(audio_size < 0){
+//				//error ,output silent
+//				is->audio_buf_size = 1024;
+//				memset(is->audio_buf, 0,is->audio_buf_size);
+//			}else{
+//				is->audio_buf_size = audio_size;
+//			}
+//			is->audio_buf_index = 0;
+//		}
+//		len1 = is->audio_buf_size - is->audio_buf_index;
+//		if(len1 > len)
+//			len1 = len;
+//		memcpy(stream, (uint8_t *)is->audio_buf + is->audio_buf_index, len1);
+//		len -= len1;
+//		stream += len1;
+//		is->audio_buf_index += len1;
+//	}
+//}
 
