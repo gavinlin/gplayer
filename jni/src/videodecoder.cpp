@@ -16,6 +16,7 @@
  * =====================================================================================
  */
 #include <stdlib.h>
+#include <stdio.h>
 #include "videodecoder.h"
 #include "trace.h"
 #include "output.h"
@@ -218,13 +219,15 @@ int DecoderVideo::queue_picture(AVFrame* pFrame, double pts){
 //				);
 
 
-		sws_scale(img_convert_ctx,
-				(const uint8_t * const*)pFrame->data,
-				pFrame->linesize,
-				0,
-				mStream->codec->height,
-				pict.data,
-				pict.linesize);	
+//		sws_scale(img_convert_ctx,
+//				(const uint8_t * const*)pFrame->data,
+//				pFrame->linesize,
+//				0,
+//				mStream->codec->height,
+//				pict.data,
+//				pict.linesize);	
+		//memcpy is ok
+		memcpy(vp->bmp,pFrame,sizeof(AVFrame));
 		SDL_UnlockMutex(pictq_mutex);
 		vp->pts = pts;
 		if(++pictq_windex == VIDEO_PICTURE_QUEUE_SIZE){
@@ -402,4 +405,32 @@ int DecoderVideo::startEventThread(void* ptr){
 				break;
 		}
 	}
+}
+
+void DecoderVideo::test(VideoPicture *vp, int iFrame){
+	FILE *pFile;
+	char szFilename[32];
+	int  y;
+
+	int width = mStream->codec->width;
+	int height = mStream->codec->height;
+	TRACE("start sws_scale\n");
+	// Open file
+	sprintf(szFilename, "/sdcard/frame%d.ppm", iFrame);
+	pFile=fopen(szFilename, "wb");
+	if(pFile==NULL)
+	{
+		TRACE("pFile is null");
+		return;
+	}
+
+	// Write header
+	fprintf(pFile, "P6\n%d %d\n255\n", width, height);
+
+	// Write pixel data
+	for(y=0; y<height; y++)
+		fwrite(vp->bmp->data[0]+y*vp->bmp->linesize[0], 1, width*3, pFile);
+
+	// Close file
+	fclose(pFile);
 }

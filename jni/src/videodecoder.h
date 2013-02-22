@@ -78,6 +78,8 @@ class DecoderVideo : public IDecoder{
 		static int startEventThread(void* ptr);
 		static uint32_t sdl_refresh_timer_cb(uint32_t interval,void *opaque);
 		static void schedule_refresh(int time);
+
+		void test(VideoPicture* vp, int iFrame);
 };
 
 #endif //_GPLAYER_DECODER_VIDEO_H
