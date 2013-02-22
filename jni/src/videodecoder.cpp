@@ -41,13 +41,13 @@ DecoderVideo::DecoderVideo(AVStream *stream) : IDecoder(stream){
 	pictq_rindex = 0;
 	frame_last_delay = 0;
 	frame_last_pts = 0;
-//	signal(SIGALRM, DecoderVideo::sigroutine);
+	// signal(SIGALRM, DecoderVideo::sigroutine);
 
-//	img_convert_ctx = sws_getContext(
-//			mStream->codec->width,mStream->codec->height,
-//			mStream->codec->pix_fmt,
-//			mStream->codec->width,mStream->codec->height,
-//			PIX_FMT_RGB565,SWS_POINT,NULL,NULL,NULL);
+	img_convert_ctx = sws_getContext(
+			mStream->codec->width,mStream->codec->height,
+			mStream->codec->pix_fmt,
+			mStream->codec->width,mStream->codec->height,
+			PIX_FMT_RGB565,SWS_POINT,NULL,NULL,NULL);
 	for(int i= 0;i < VIDEO_PICTURE_QUEUE_SIZE;i++){
 		memset(&pictq[i],0,sizeof(VideoPicture));
 	}
@@ -209,13 +209,13 @@ int DecoderVideo::queue_picture(AVFrame* pFrame, double pts){
 	pict.linesize[1] = vp->bmp->linesize[1];
 	pict.linesize[2] = vp->bmp->linesize[2];
 
-		img_convert_ctx = sws_getCachedContext(
-				img_convert_ctx,
-				vp->width,vp->height,mStream->codec->pix_fmt,
-				vp->width,vp->height,PIX_FMT_RGB565,
-				SWS_POINT,NULL,
-				NULL,NULL
-				);
+//		img_convert_ctx = sws_getCachedContext(
+//				img_convert_ctx,
+//				vp->width,vp->height,mStream->codec->pix_fmt,
+//				vp->width,vp->height,PIX_FMT_RGB565,
+//				SWS_POINT,NULL,
+//				NULL,NULL
+//				);
 
 
 		sws_scale(img_convert_ctx,
@@ -286,9 +286,9 @@ void DecoderVideo::schedule_refresh(int time){
 
 void DecoderVideo::videoDisplay(VideoPicture* vp){
 	if(vp->bmp){
-	TRACE("video display");
-	onDecode(vp->bmp,0);
-//		onDecode(mFrame,0);
+		TRACE("video display");
+		onDecode(vp->bmp,0);
+		//		onDecode(mFrame,0);
 	}
 }
 
