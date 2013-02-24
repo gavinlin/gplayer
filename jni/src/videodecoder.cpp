@@ -16,6 +16,7 @@
  * =====================================================================================
  */
 #include <stdlib.h>
+#include <stdio.h>
 #include "videodecoder.h"
 #include "trace.h"
 #include "output.h"
@@ -224,6 +225,7 @@ void DecoderVideo::schedule_refresh(int time){
 
 void DecoderVideo::videoDisplay(VideoPicture* vp){
 	if(vp->bmp){
+		TRACE("video display");
 		onDecode(vp->bmp,0);
 	}
 }
@@ -327,4 +329,32 @@ int DecoderVideo::startEventThread(void* ptr){
 				break;
 		}
 	}
+}
+
+void DecoderVideo::test(VideoPicture *vp, int iFrame){
+	FILE *pFile;
+	char szFilename[32];
+	int  y;
+
+	int width = mStream->codec->width;
+	int height = mStream->codec->height;
+	TRACE("start sws_scale\n");
+	// Open file
+	sprintf(szFilename, "/sdcard/frame%d.ppm", iFrame);
+	pFile=fopen(szFilename, "wb");
+	if(pFile==NULL)
+	{
+		TRACE("pFile is null");
+		return;
+	}
+
+	// Write header
+	fprintf(pFile, "P6\n%d %d\n255\n", width, height);
+
+	// Write pixel data
+	for(y=0; y<height; y++)
+		fwrite(vp->bmp->data[0]+y*vp->bmp->linesize[0], 1, width*3, pFile);
+
+	// Close file
+	fclose(pFile);
 }
