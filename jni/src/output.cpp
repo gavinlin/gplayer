@@ -33,8 +33,13 @@ int Output::AudioDriver_start(){
 int Output::AudioDriver_set(int streamType,
 							uint32_t sampleRate,
 							int format,
-							int channels){
-	return AndroidAudioTrack_set(streamType, sampleRate, format, channels);
+							int channels,
+							int frameCount,
+							uint32_t flags,
+							callback_t cbf,
+							void* user){
+	return AndroidAudioTrack_set(streamType, sampleRate, format, channels,
+			frameCount, flags, cbf, user);
 }
 
 int Output::AudioDriver_flush(){

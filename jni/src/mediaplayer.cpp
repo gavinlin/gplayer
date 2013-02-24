@@ -69,6 +69,23 @@ void MediaPlayer::decodeMovie(void* ptr){
 	//start audio thread
 	mDecoderAudio = new DecoderAudio(audio_st);
 	mDecoderAudio->onDecode = decode;
+	//prepare os output
+	if(Output::AudioDriver_set(MUSIC,
+								44100,
+								PCM_16_BIT,
+								(audio_st->codec->channels == 2) ? CHANNEL_OUT_STEREO
+									: CHANNEL_OUT_MONO,
+								SDL_AUDIO_BUFFER_SIZE,
+								0,
+								DecoderAudio::cbf,mDecoderAudio) != 0){
+		return ;
+	}
+	ERROR("set audio track successed");
+	if(Output::AudioDriver_start() != 0){
+		return ;
+	}
+
+
 	mDecoderAudio->startAsync();
 
 	//start video thread
@@ -249,19 +266,6 @@ status_t MediaPlayer::prepareAudio(){
 	}
 
 	if(avcodec_open(codecCtx, codec) < 0){
-		return INVALID_OPERATION;
-	}
-
-	//prepare os output
-	if(Output::AudioDriver_set(MUSIC,
-								44100,
-								PCM_16_BIT,
-								(audio_st->codec->channels == 2) ? CHANNEL_OUT_STEREO
-									: CHANNEL_OUT_MONO) != 0){
-		return INVALID_OPERATION;
-	}
-	ERROR("set audio track successed");
-	if(Output::AudioDriver_start() != 0){
 		return INVALID_OPERATION;
 	}
 

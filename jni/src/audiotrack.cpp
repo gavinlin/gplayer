@@ -76,7 +76,11 @@ int AndroidAudioTrack_start() {
 int AndroidAudioTrack_set(int streamType,
 						  uint32_t sampleRate,
 						  int format,
-						  int channels) {
+						  int channels,
+						  int frameCount,
+						  uint32_t flags,
+						  callback_t cbf,
+						  void* user) {
 	if(track == NULL) {
         return ANDROID_AUDIOTRACK_RESULT_ALLOCATION_FAILED;
     }
@@ -87,11 +91,10 @@ int AndroidAudioTrack_set(int streamType,
 							  sampleRate, 
 							  format, 
 							  channels, 
-							  0, 
-							  0,
-							  0, 
-							  0,
-							  false);
+							  frameCount, 
+							  flags,
+							  cbf, 
+							  user);
 	
 	if (ret != NO_ERROR) {
 		return ANDROID_AUDIOTRACK_RESULT_ERRNO;

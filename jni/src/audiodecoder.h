@@ -27,16 +27,20 @@ typedef void (*AudioDecodingHandler)(uint8_t*, int);
 
 #define ANDROID_DEFAULT_FREQ 44100
 #define ANDROID_DEFAULT_NBCHANNELS 2
-#define SDL_AUDIO_BUFFER_SIZE 1024
+#define SDL_AUDIO_BUFFER_SIZE 4096
 
 class DecoderAudio : public IDecoder{
 	public:
 		int audio_clock;
 		DecoderAudio(AVStream* stream);
 		~DecoderAudio();
-//		static void cbf(int event, void* user, void* info);
+		static void cbf(int event, void* user, void* info);
+		static int audio_decode_frame(void* decoderAudio, void* buf,int buf_size, double* pts);
 
 		AudioDecodingHandler onDecode;
+
+		unsigned int audio_buf_index;
+		unsigned int audio_buf_size;
 
 	private:
 		int16_t *mSamples;

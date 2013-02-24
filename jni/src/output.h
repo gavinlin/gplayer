@@ -21,6 +21,7 @@
 #include <jni.h>
 #include "audiotrack.h"
 #include "surface.h"
+typedef void (*callback_t)(int event, void* user, void *info);
 
 class Output{
 	public:
@@ -28,7 +29,11 @@ class Output{
 		static int AudioDriver_set(int streamType,
 									uint32_t smapleRate,
 									int format,
-									int channels);
+									int channels,
+									int frameCount,
+									uint32_t flags,
+									callback_t cbf,
+									void* user);
 		static int AudioDriver_start();
 		static int AudioDriver_flush();
 		static int AudioDriver_stop();

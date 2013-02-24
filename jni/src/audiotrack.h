@@ -19,6 +19,8 @@
 
 #include <stdint.h>
 #include <jni.h>
+#include <media/AudioTrack.h>
+typedef void (*callback_t)(int event, void* user, void *info);
 
 #define ANDROID_AUDIOTRACK_RESULT_SUCCESS 0
 #define ANDROID_AUDIOTRACK_RESULT_BAD_PARAMETER -1
@@ -93,7 +95,11 @@ extern "C" {
 	int AndroidAudioTrack_set(int streamType,
 			uint32_t sampleRate,
 			int format,
-			int channels);
+			int channels,
+			int frameCount,
+			uint32_t flags,
+			callback_t cbf,
+			void* user);
 
 	int AndroidAudioTrack_start();
 
