@@ -26,7 +26,13 @@ DecoderAudio::DecoderAudio(AVStream* stream) : IDecoder(stream){
 }
 
 DecoderAudio::~DecoderAudio(){
-
+	mRunning = false;
+	if(audio_buf)
+		free(audio_buf);
+	if(audio_buf2)
+		free(audio_buf2);
+		av_free_packet(&audio_pkt);
+		av_free_packet(&audio_pkt_temp);
 }
 
 bool DecoderAudio::prepare(){

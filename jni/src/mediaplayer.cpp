@@ -10,7 +10,7 @@
  *       Revision:  none
  *       Compiler:  gcc
  *
- *         Author:  YOUR NAME (), 
+ *         Author: gavin 
  *   Organization:  
  *
  * =====================================================================================
@@ -60,7 +60,6 @@ void MediaPlayer::decode(AVFrame *frame, double pts){
 			sPlayer->mVideoHeight,
 			sPlayer->mFrame->data,
 			sPlayer->mFrame->linesize);
-	TRACE("update surface");
 	Output::VideoDriver_updateSurface();
 }
 

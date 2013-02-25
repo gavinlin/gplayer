@@ -17,6 +17,7 @@
  */
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 #include "videodecoder.h"
 #include "trace.h"
 #include "output.h"
@@ -45,9 +46,25 @@ DecoderVideo::DecoderVideo(AVStream *stream) : IDecoder(stream){
 	for(int i= 0;i < VIDEO_PICTURE_QUEUE_SIZE;i++){
 		memset(&pictq[i],0,sizeof(VideoPicture));
 	}
+	img_convert_ctx = sws_getContext(
+			mStream->codec->width,mStream->codec->height,
+			mStream->codec->pix_fmt,
+			mStream->codec->width,mStream->codec->height,
+			mStream->codec->pix_fmt,SWS_POINT,NULL,NULL,NULL);
+
 }
 
 DecoderVideo::~DecoderVideo(){
+	int i;
+	VideoPicture* vp;
+	mRunning = false;
+	for(i = 0; i< VIDEO_PICTURE_QUEUE_SIZE;i++){
+		vp = &pictq[i];
+		if(vp->bmp){
+			av_free(vp->bmp);
+			vp->bmp = NULL;
+		}
+	}
 	SDL_DestroyMutex(pictq_mutex);
 	SDL_DestroyCond(pictq_cond);
 }
@@ -85,11 +102,15 @@ bool DecoderVideo::process(AVPacket *packet)
 	int len1;
 
 	// Decode video frame
+	clock_t start,end;
+	start = clock();
 	len1 = avcodec_decode_video2(mStream->codec,
 						 mFrame,
 						 &completed,
 						 packet);
-	
+	end = clock();
+	ERROR("time deocde_video2 using %f ms",(double)(end - start) / CLOCKS_PER_SEC);
+
 	if (packet->dts == AV_NOPTS_VALUE && mFrame->opaque
 			&& *(uint64_t*) mFrame->opaque != AV_NOPTS_VALUE) {
 		pts = *(uint64_t *) mFrame->opaque;
@@ -182,7 +203,18 @@ int DecoderVideo::queue_picture(AVFrame* pFrame, double pts){
 	if(vp->bmp){
 		SDL_LockMutex(pictq_mutex);
 
-		memcpy(vp->bmp,pFrame,sizeof(AVFrame));
+		//memcpy(vp->bmp,pFrame,sizeof(AVFrame));
+		clock_t start,end;
+		start = clock();
+		sws_scale(img_convert_ctx,
+				mFrame->data,
+				mFrame->linesize,
+				0,
+				mStream->codec->height,
+				vp->bmp->data,
+				vp->bmp->linesize);
+		end = clock();
+		ERROR("time swscale using %f ms",(double)(end - start) / CLOCKS_PER_SEC);
 
 		SDL_UnlockMutex(pictq_mutex);
 
@@ -227,14 +259,18 @@ void DecoderVideo::schedule_refresh(int time){
 void DecoderVideo::videoDisplay(VideoPicture* vp){
 	if(vp->bmp){
 		TRACE("video display");
+		clock_t start,end;
+		start = clock();
 		onDecode(vp->bmp,0);
+		end = clock();
+		ERROR("222time swscale using %f ms",(double)(end - start) / CLOCKS_PER_SEC);
 	}
 }
 
 void DecoderVideo::video_refresh_timer(void *userdata){
 	VideoPicture *vp;
 	double actual_delay, delay, sync_threshold, ref_clock, diff;
-	if(mStream){
+	if(mStream && mRunning){
 		if(pictq_size == 0){
 			schedule_refresh(1);
 		}else{
@@ -302,7 +338,7 @@ void DecoderVideo::alloc_picture(void *userdata){
 			mStream->codec->height);
 	uint8_t * buffer = (uint8_t *)av_malloc(numBytes*sizeof(uint8_t));
 	avpicture_fill((AVPicture *)vp->bmp,buffer,
-			PIX_FMT_RGB565,mStream->codec->width,mStream->codec->height);
+			mStream->codec->pix_fmt,mStream->codec->width,mStream->codec->height);
 	SDL_LockMutex(pictq_mutex);
 	vp->allocated = 1;
 	SDL_CondSignal(pictq_cond);
