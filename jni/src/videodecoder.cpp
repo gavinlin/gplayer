@@ -39,7 +39,8 @@ DecoderVideo::DecoderVideo(AVStream *stream) : IDecoder(stream){
 	pictq_size = 0;
 	pictq_windex = 0;
 	pictq_rindex = 0;
-	frame_last_delay = 0;
+	frame_last_delay = 40e-3;
+	frame_timer = (double)av_gettime() / 1000000.0;
 	frame_last_pts = 0;
 	for(int i= 0;i < VIDEO_PICTURE_QUEUE_SIZE;i++){
 		memset(&pictq[i],0,sizeof(VideoPicture));
@@ -252,6 +253,7 @@ void DecoderVideo::video_refresh_timer(void *userdata){
 			ref_clock = (double)audioClock();
 			diff = vp->pts - ref_clock;
 			
+			ERROR("diff is %f , vp->pts is %f ,ref_clock is %f",diff,vp->pts,ref_clock);
 			sync_threshold = (delay > AV_SYNC_THRESHOLD) ? delay : AV_SYNC_THRESHOLD;
 			if(fabs(diff) < AV_NOSYNC_THRESHOLE){
 				if(diff <= -sync_threshold){
@@ -268,8 +270,8 @@ void DecoderVideo::video_refresh_timer(void *userdata){
 				//should skip the picture instead
 				actual_delay = 0.010;
 			}
+			
 			schedule_refresh((int)(actual_delay * 1000 + 0.5));
-
 			videoDisplay(vp);
 
 			if(++pictq_rindex == VIDEO_PICTURE_QUEUE_SIZE){
