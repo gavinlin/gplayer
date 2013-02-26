@@ -52,8 +52,8 @@ class DecoderVideo : public IDecoder{
 		int pictq_size,pictq_rindex,pictq_windex;
 		// SDL_mutex* pictq_mutex;
 		// SDL_cond* pictq_cond;
-		pthread_mutex_t* pictq_mutex;
-		pthread_cond_t* pictq_cond;
+		pthread_mutex_t pictq_mutex;
+		pthread_cond_t pictq_cond;
 		double mVideoClock;
 
 	private:
