@@ -7,3 +7,4 @@ tags
 cscope.files
 cscope.out
 build.xml
+local.properties

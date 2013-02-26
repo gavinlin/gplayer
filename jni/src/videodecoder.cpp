@@ -35,8 +35,10 @@ static int refreshStart = 1;
 DecoderVideo::DecoderVideo(AVStream *stream) : IDecoder(stream){
 	mStream->codec->get_buffer = getBuffer;
 	mStream->codec->release_buffer = releaseBuffer;
-	pictq_mutex = SDL_CreateMutex();
-	pictq_cond = SDL_CreateCond();
+	// pictq_mutex = SDL_CreateMutex();
+	// pictq_cond = SDL_CreateCond();
+	pthread_mutex_init(pictq_mutex, NULL);
+	pthread_cond_init(pictq_cond, NULL);
 	pictq_size = 0;
 	pictq_windex = 0;
 	pictq_rindex = 0;
@@ -65,8 +67,12 @@ DecoderVideo::~DecoderVideo(){
 			vp->bmp = NULL;
 		}
 	}
-	SDL_DestroyMutex(pictq_mutex);
-	SDL_DestroyCond(pictq_cond);
+	// SDL_CondSignal(pictq_cond);
+	// SDL_DestroyMutex(pictq_mutex);
+	// SDL_DestroyCond(pictq_cond);
+	pthread_cond_signal(pictq_cond);
+	pthread_mutex_destroy(pictq_mutex);
+	pthread_cond_destroy(pictq_cond);
 }
 
 bool DecoderVideo::prepare(){
@@ -172,11 +178,14 @@ bool DecoderVideo::decode(void* ptr)
 int DecoderVideo::queue_picture(AVFrame* pFrame, double pts){
 	VideoPicture *vp;
 
-	SDL_LockMutex(pictq_mutex);
+	// SDL_LockMutex(pictq_mutex);
+	pthread_mutex_lock(pictq_mutex);
 	while(pictq_size >= VIDEO_PICTURE_QUEUE_SIZE && mRunning){
-		SDL_CondWait(pictq_cond,pictq_mutex);
+		// SDL_CondWait(pictq_cond,pictq_mutex);
+		pthread_cond_wait(pictq_cond,pictq_mutex);
 	}
-	SDL_UnlockMutex(pictq_mutex);
+	// SDL_UnlockMutex(pictq_mutex);
+	pthread_mutex_unlock(pictq_mutex);
 
 	if(!mRunning){
 		return -1;
@@ -193,15 +202,19 @@ int DecoderVideo::queue_picture(AVFrame* pFrame, double pts){
 		event.user.data1 = vp;
 		SDL_PushEvent(&event);
 
-		SDL_LockMutex(pictq_mutex);
+		//SDL_LockMutex(pictq_mutex);
+		pthread_mutex_lock(pictq_mutex);
 		while(!vp->allocated && mRunning){
-			SDL_CondWait(pictq_cond, pictq_mutex);
+			//SDL_CondWait(pictq_cond, pictq_mutex);
+			pthread_cond_wait(pictq_cond,pictq_mutex);
 		}
-		SDL_UnlockMutex(pictq_mutex);
+		//SDL_UnlockMutex(pictq_mutex);
+		pthread_mutex_unlock(pictq_mutex);
 	}
 
 	if(vp->bmp){
-		SDL_LockMutex(pictq_mutex);
+		//SDL_LockMutex(pictq_mutex);
+		pthread_mutex_lock(pictq_mutex);
 
 		//memcpy(vp->bmp,pFrame,sizeof(AVFrame));
 		clock_t start,end;
@@ -216,15 +229,18 @@ int DecoderVideo::queue_picture(AVFrame* pFrame, double pts){
 		end = clock();
 		ERROR("time swscale using %f ms",(double)(end - start) / CLOCKS_PER_SEC);
 
-		SDL_UnlockMutex(pictq_mutex);
+		//SDL_UnlockMutex(pictq_mutex);
+		pthread_mutex_unlock(pictq_mutex);
 
 		vp->pts = pts;
 		if(++pictq_windex == VIDEO_PICTURE_QUEUE_SIZE){
 			pictq_windex = 0;
 		}
-		SDL_LockMutex(pictq_mutex);
+		// SDL_LockMutex(pictq_mutex);
+		pthread_mutex_lock(pictq_mutex);
 		pictq_size++;
-		SDL_UnlockMutex(pictq_mutex);
+		// SDL_UnlockMutex(pictq_mutex);
+		pthread_mutex_unlock(pictq_mutex);
 	}
 	return 0;
 }
@@ -313,10 +329,13 @@ void DecoderVideo::video_refresh_timer(void *userdata){
 			if(++pictq_rindex == VIDEO_PICTURE_QUEUE_SIZE){
 				pictq_rindex = 0;
 			}
-			SDL_LockMutex(pictq_mutex);
+			// SDL_LockMutex(pictq_mutex);
+			pthread_mutex_lock(pictq_mutex);
 			pictq_size--;
-			SDL_CondSignal(pictq_cond);
-			SDL_UnlockMutex(pictq_mutex);
+			// SDL_CondSignal(pictq_cond);
+			// SDL_UnlockMutex(pictq_mutex);
+			pthread_cond_signal(pictq_cond);
+			pthread_mutex_unlock(pictq_mutex);
 		}
 	} else {
 		schedule_refresh(100);
@@ -339,10 +358,13 @@ void DecoderVideo::alloc_picture(void *userdata){
 	uint8_t * buffer = (uint8_t *)av_malloc(numBytes*sizeof(uint8_t));
 	avpicture_fill((AVPicture *)vp->bmp,buffer,
 			mStream->codec->pix_fmt,mStream->codec->width,mStream->codec->height);
-	SDL_LockMutex(pictq_mutex);
+	// SDL_LockMutex(pictq_mutex);
+	pthread_mutex_lock(pictq_mutex);
 	vp->allocated = 1;
-	SDL_CondSignal(pictq_cond);
-	SDL_UnlockMutex(pictq_mutex);
+	// SDL_CondSignal(pictq_cond);
+	// SDL_UnlockMutex(pictq_mutex);
+	pthread_cond_signal(pictq_cond);
+	pthread_mutex_unlock(pictq_mutex);
 
 }
 

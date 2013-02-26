@@ -10,7 +10,7 @@
  *       Revision:  none
  *       Compiler:  gcc
  *
- *         Author:  YOUR NAME (), 
+ *         Author: gavin 
  *   Organization:  
  *
  * =====================================================================================
@@ -50,8 +50,10 @@ class DecoderVideo : public IDecoder{
 
 		VideoPicture pictq[VIDEO_PICTURE_QUEUE_SIZE];
 		int pictq_size,pictq_rindex,pictq_windex;
-		SDL_mutex* pictq_mutex;
-		SDL_cond* pictq_cond;
+		// SDL_mutex* pictq_mutex;
+		// SDL_cond* pictq_cond;
+		pthread_mutex_t* pictq_mutex;
+		pthread_cond_t* pictq_cond;
 		double mVideoClock;
 
 	private:
