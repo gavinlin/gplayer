@@ -18,45 +18,45 @@
 #include <stdlib.h>
 #include "output.h"
 
-int Output::AudioDriver_register(){
-	return AndroidAudioTrack_register();
-}
-
-int Output::AudioDriver_unregister(){
-	return AndroidAudioTrack_unregister();
-}
-
-int Output::AudioDriver_start(){
-	return AndroidAudioTrack_start();
-}
-
-int Output::AudioDriver_set(int streamType,
-							uint32_t sampleRate,
-							int format,
-							int channels,
-							int frameCount,
-							uint32_t flags,
-							callback_t cbf,
-							void* user){
-	return AndroidAudioTrack_set(streamType, sampleRate, format, channels,
-			frameCount, flags, cbf, user);
-}
-
-int Output::AudioDriver_flush(){
-	return AndroidAudioTrack_flush();
-}
-
-int Output::AudioDriver_stop(){
-	return AndroidAudioTrack_stop();
-}
-
-int Output::AudioDriver_reload(){
-	return AndroidAudioTrack_reload();
-}
-
-int Output::AudioDriver_write(void* buffer, int buffer_size){
-	return AndroidAudioTrack_write(buffer, buffer_size);
-}
+//int Output::AudioDriver_register(){
+//	return AndroidAudioTrack_register();
+//}
+//
+//int Output::AudioDriver_unregister(){
+//	return AndroidAudioTrack_unregister();
+//}
+//
+//int Output::AudioDriver_start(){
+//	return AndroidAudioTrack_start();
+//}
+//
+//int Output::AudioDriver_set(int streamType,
+//							uint32_t sampleRate,
+//							int format,
+//							int channels,
+//							int frameCount,
+//							uint32_t flags,
+//							callback_t cbf,
+//							void* user){
+//	return AndroidAudioTrack_set(streamType, sampleRate, format, channels,
+//			frameCount, flags, cbf, user);
+//}
+//
+//int Output::AudioDriver_flush(){
+//	return AndroidAudioTrack_flush();
+//}
+//
+//int Output::AudioDriver_stop(){
+//	return AndroidAudioTrack_stop();
+//}
+//
+//int Output::AudioDriver_reload(){
+//	return AndroidAudioTrack_reload();
+//}
+//
+//int Output::AudioDriver_write(void* buffer, int buffer_size){
+//	return AndroidAudioTrack_write(buffer, buffer_size);
+//}
 
 int Output::VideoDriver_register(JNIEnv* env, jobject jsurface){
 	return AndroidSurface_register(env, jsurface);

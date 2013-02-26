@@ -2,6 +2,7 @@ package com.lingavin.gplayer;
 
 import java.lang.ref.WeakReference;
 
+import android.os.Build;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 
@@ -26,7 +27,7 @@ public class MediaPlayer{
 	
 	public native void setDataSource(String path);
 	private native void setVideoSurface(Surface surface);
-	private native void nativePrepare();
+	private native void nativePrepare(int sdkVersion);
 	private static native final void nativeInit();
 	private native void nativeSetup();
 	private native void nativeStart();
@@ -54,7 +55,7 @@ public class MediaPlayer{
 	}
 
 	public void prepare() {
-		nativePrepare();
+		nativePrepare(Integer.parseInt(Build.VERSION.SDK));
 	}
 
 	public void suspend() {

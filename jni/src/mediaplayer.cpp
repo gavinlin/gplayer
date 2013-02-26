@@ -17,6 +17,7 @@
  */
 #include <stdlib.h>
 #include <unistd.h>
+#include <dlfcn.h>
 
 extern "C"{
 
@@ -31,9 +32,22 @@ extern "C"{
 #include "output.h"
 
 static MediaPlayer* sPlayer;
+static void* libhandle = 0;
 
 MediaPlayer::MediaPlayer(){
 	sPlayer = this;
+		libhandle = dlopen("/data/data/com.lingavin.gplayer/lib/libatrack.so", RTLD_NOW);
+	TRACE("dlopen is %d !!!!!!!!!!!!",libhandle);
+	if(libhandle){
+		AndroidAudioTrack_register = (typeof(AndroidAudioTrack_register)) dlsym(libhandle,"AndroidAudioTrack_register");
+		AndroidAudioTrack_set= (typeof(AndroidAudioTrack_set)) dlsym(libhandle,"AndroidAudioTrack_set");
+		AndroidAudioTrack_start = (typeof(AndroidAudioTrack_start)) dlsym(libhandle,"AndroidAudioTrack_start");
+		AndroidAudioTrack_flush = (typeof(AndroidAudioTrack_flush)) dlsym(libhandle,"AndroidAudioTrack_flush");
+		AndroidAudioTrack_stop = (typeof(AndroidAudioTrack_stop)) dlsym(libhandle,"AndroidAudioTrack_stop");
+		AndroidAudioTrack_reload = (typeof(AndroidAudioTrack_reload)) dlsym(libhandle,"AndroidAudioTrack_reload");
+		AndroidAudioTrack_unregister = (typeof(AndroidAudioTrack_unregister)) dlsym(libhandle,"AndroidAudioTrack_unregister");
+	}
+
 }
 
 MediaPlayer::~MediaPlayer(){
@@ -46,9 +60,9 @@ int MediaPlayer::getAudioClock(){
 void MediaPlayer::decode(uint8_t* buffer, int buffer_size){
 	// TRACE("decode audio data %d",buffer_size);
 	int ret;
-	if(ret = (Output::AudioDriver_write(buffer, buffer_size)) <= 0){
-		ERROR("couldn't write buffers to audio track ret is %d", ret);
-	}
+	//if(ret = (Output::AudioDriver_write(buffer, buffer_size)) <= 0){
+	//	ERROR("couldn't write buffers to audio track ret is %d", ret);
+	//}
 }
 
 void MediaPlayer::decode(AVFrame *frame, double pts){
@@ -69,7 +83,7 @@ void MediaPlayer::decodeMovie(void* ptr){
 	mDecoderAudio = new DecoderAudio(audio_st);
 	mDecoderAudio->onDecode = decode;
 	//prepare os output
-	if(Output::AudioDriver_set(MUSIC,
+	if(AndroidAudioTrack_set(MUSIC,
 								44100,
 								PCM_16_BIT,
 								(audio_st->codec->channels == 2) ? CHANNEL_OUT_STEREO
@@ -80,7 +94,7 @@ void MediaPlayer::decodeMovie(void* ptr){
 		return ;
 	}
 	ERROR("set audio track successed");
-	if(Output::AudioDriver_start() != 0){
+	if(AndroidAudioTrack_start() != 0){
 		return ;
 	}
 
@@ -184,7 +198,7 @@ status_t MediaPlayer::setVideoSurface(JNIEnv* env, jobject jsurface){
 		return INVALID_OPERATION;
 	}
 
-	if(Output::AudioDriver_register() != 0){
+	if(AndroidAudioTrack_register() != 0){
 		return INVALID_OPERATION;
 	}
 	TRACE("set vudeo surface successed");
@@ -271,8 +285,9 @@ status_t MediaPlayer::prepareAudio(){
 	return NO_ERROR;
 }
 
-status_t MediaPlayer::prepare(){
+status_t MediaPlayer::prepare(int sdkVersion){
 	status_t ret;
+
 	mCurrentState = MEDIA_PLAYER_PREPARING; 
 	if((ret = prepareVideo()) != NO_ERROR){
 		mCurrentState = MEDIA_PLAYER_STATE_ERROR;
@@ -304,7 +319,7 @@ status_t MediaPlayer::suspend(){
 
 	av_close_input_file(pFormatCtx);
 
-	Output::AudioDriver_unregister();
+	AndroidAudioTrack_unregister();
 	Output::VideoDriver_unregister();
 	TRACE("suspend successed");
 	return NO_ERROR;

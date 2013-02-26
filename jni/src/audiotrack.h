@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2009 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 #ifndef ANDROID_AUDIOTRACK_WRAPPER_H
 #define ANDROID_AUDIOTRACK_WRAPPER_H
 
@@ -89,9 +73,8 @@ enum audio_channels {
 #ifdef __cplusplus
 extern "C" {
 #endif
-
+#ifdef FROM_ATRACK_CODE
 	int AndroidAudioTrack_register();
-
 	int AndroidAudioTrack_set(int streamType,
 			uint32_t sampleRate,
 			int format,
@@ -100,18 +83,28 @@ extern "C" {
 			uint32_t flags,
 			callback_t cbf,
 			void* user);
-
 	int AndroidAudioTrack_start();
-
 	int AndroidAudioTrack_flush();
-
 	int AndroidAudioTrack_stop();
-
 	int AndroidAudioTrack_reload();
-
 	int AndroidAudioTrack_unregister();
-
-	int AndroidAudioTrack_write(void *buffer, int buffer_size);
+//	int AndroidAudioTrack_write(void *buffer, int buffer_size);
+#else
+	int (*AndroidAudioTrack_register)() __attribute__((weak));
+	int (*AndroidAudioTrack_set)(int streamType,
+			uint32_t sampleRate,
+			int format,
+			int channels,
+			int frameCount,
+			uint32_t flags,
+			callback_t cbf,
+			void* user) __attribute__((weak));
+	int (*AndroidAudioTrack_start)() __attribute__((weak));
+	int (*AndroidAudioTrack_flush)() __attribute__((weak));
+	int (*AndroidAudioTrack_stop)() __attribute__((weak));
+	int (*AndroidAudioTrack_reload)() __attribute__((weak));
+	int (*AndroidAudioTrack_unregister)() __attribute__((weak));
+#endif
 
 #ifdef __cplusplus
 }

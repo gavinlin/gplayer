@@ -49,7 +49,7 @@ class MediaPlayer{
 		~MediaPlayer();
 		status_t setDataSource(const char* path);
 		status_t setVideoSurface(JNIEnv *env, jobject jsurface);
-		status_t prepare();
+		status_t prepare(int sdkVersion);
 		status_t start();
 		status_t suspend();
 		bool isPlaying();
