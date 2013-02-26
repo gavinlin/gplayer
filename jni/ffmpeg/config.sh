@@ -7,7 +7,7 @@ TOOLCHAIN=`echo $ANDROID_NDK/toolchains/arm-linux-androideabi-4.4.3/prebuilt/lin
 export PATH=$TOOLCHAIN/bin:$PATH
 FLAGS="--target-os=linux --cross-prefix=arm-linux-androideabi- --arch=arm --cpu=armv7-a "
 FLAGS="$FLAGS --sysroot=$SYSROOT"
-FLAGS="$FLAGS --disable-avdevice --disable-static --enable-shared --disable-ffplay --disable-doc --disable-ffmpeg --disable-ffprobe --disable-ffserver --disable-avfilter --disable-encoders --disable-muxers --disable-filters --disable-devices --enable-version3 --enable-asm  --enable-neon --enable-libstagefright-h264"
+FLAGS="$FLAGS --disable-avdevice --disable-static --enable-shared --disable-ffplay --disable-doc --disable-ffmpeg --disable-ffprobe --disable-ffserver --disable-avfilter --disable-encoders --disable-muxers --disable-filters --disable-devices --enable-version3 --enable-asm  --enable-neon "
 
 EXTRA_CFLAGS="-I$ANDROID_NDK/sources/cxx-stl/system/include"
 

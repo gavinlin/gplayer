@@ -663,8 +663,7 @@ AVCODEC_FILES := \
 	libavcodec/xxan.c \
 	libavcodec/y41pdec.c \
 	libavcodec/yop.c \
-	libavcodec/zmbv.c \
-	libavcodec/libstagefright.cpp
+	libavcodec/zmbv.c 
 
 
 ARM_GENERAL_AVCODEC_FILES := \
@@ -800,26 +799,26 @@ LOCAL_C_INCLUDES +=$(LOCAL_PATH) \
 	$(LOCAL_PATH)/../include/android_ics \
 	$(LOCAL_PATH)/../include/android_ics/media/stagefright/openmax 
 
-LOCAL_SHARED_LIBRARIES := STAGEFRIGHT BINDER MEDIA UTILS
+#LOCAL_SHARED_LIBRARIES := STAGEFRIGHT BINDER MEDIA UTILS
 
 include $(BUILD_SHARED_LIBRARY)
 
-include $(CLEAR_VARS)
-LOCAL_MODULE := BINDER
-LOCAL_SRC_FILES := $(PREBUILT_PATH)/libbinder.so 
-include $(PREBUILT_SHARED_LIBRARY)
-
-include $(CLEAR_VARS)
-LOCAL_MODULE := MEDIA
-LOCAL_SRC_FILES := $(PREBUILT_PATH)/libmedia.so 
-include $(PREBUILT_SHARED_LIBRARY)
-
-include $(CLEAR_VARS)
-LOCAL_MODULE := STAGEFRIGHT
-LOCAL_SRC_FILES := $(PREBUILT_PATH)/libstagefright.so
-include $(PREBUILT_SHARED_LIBRARY)
-
-include $(CLEAR_VARS)
-LOCAL_MODULE := UTILS
-LOCAL_SRC_FILES := $(PREBUILT_PATH)/libutils.so 
-include $(PREBUILT_SHARED_LIBRARY)
+#include $(CLEAR_VARS)
+#LOCAL_MODULE := BINDER
+#LOCAL_SRC_FILES := $(PREBUILT_PATH)/libbinder.so 
+#include $(PREBUILT_SHARED_LIBRARY)
+#
+#include $(CLEAR_VARS)
+#LOCAL_MODULE := MEDIA
+#LOCAL_SRC_FILES := $(PREBUILT_PATH)/libmedia.so 
+#include $(PREBUILT_SHARED_LIBRARY)
+#
+#include $(CLEAR_VARS)
+#LOCAL_MODULE := STAGEFRIGHT
+#LOCAL_SRC_FILES := $(PREBUILT_PATH)/libstagefright.so
+#include $(PREBUILT_SHARED_LIBRARY)
+#
+#include $(CLEAR_VARS)
+#LOCAL_MODULE := UTILS
+#LOCAL_SRC_FILES := $(PREBUILT_PATH)/libutils.so 
+#include $(PREBUILT_SHARED_LIBRARY)
