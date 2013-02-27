@@ -29,7 +29,7 @@ extern "C"{
 #define AV_NOSYNC_THRESHOLE 10.0
 
 typedef void (*VideoDecodingHandler)(AVFrame*, double);
-typedef int (*GetAudioClockHandler)(void);
+typedef double (*GetAudioClockHandler)(void);
 
 typedef struct VideoPicture{
 	AVFrame *bmp;

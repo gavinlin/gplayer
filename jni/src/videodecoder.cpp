@@ -41,7 +41,7 @@ DecoderVideo::DecoderVideo(AVStream *stream) : IDecoder(stream){
 	pictq_size = 0;
 	pictq_windex = 0;
 	pictq_rindex = 0;
-	frame_last_delay = 40e-3;
+	frame_last_delay = 40e-3; //0.04
 	frame_timer = (double)av_gettime() / 1000000.0;
 	frame_last_pts = 0;
 	for(int i= 0;i < VIDEO_PICTURE_QUEUE_SIZE;i++){
@@ -298,15 +298,15 @@ void DecoderVideo::video_refresh_timer(void *userdata){
 				delay = frame_last_delay;
 			}
 
-			frame_last_delay = delay;
+			frame_last_delay = delay;//record delay from last frame
 			frame_last_pts = vp->pts;
 
-			ref_clock = (double)audioClock();
+			ref_clock = audioClock();
 			diff = vp->pts - ref_clock;
 			
 			ERROR("diff is %f , vp->pts is %f ,ref_clock is %f",diff,vp->pts,ref_clock);
-			sync_threshold = (delay > AV_SYNC_THRESHOLD) ? delay : AV_SYNC_THRESHOLD;
-			if(fabs(diff) < AV_NOSYNC_THRESHOLE){
+			sync_threshold = (delay > AV_SYNC_THRESHOLD) ? delay : AV_SYNC_THRESHOLD; //AV_SYNC_THReSHOLD is 0.01
+			if(fabs(diff) < AV_NOSYNC_THRESHOLE){ //AV_NOSYN_THRESHOLE is 10
 				if(diff <= -sync_threshold){
 					delay = 0;
 				}else if(diff > sync_threshold){

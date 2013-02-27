@@ -63,7 +63,7 @@ MediaPlayer::~MediaPlayer(){
 	dlclose(libsurfacehandle);
 }
 
-int MediaPlayer::getAudioClock(){
+double MediaPlayer::getAudioClock(){
 	return sPlayer->mDecoderAudio->audio_clock;
 }
 

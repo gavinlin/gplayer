@@ -31,7 +31,7 @@ typedef void (*AudioDecodingHandler)(uint8_t*, int);
 
 class DecoderAudio : public IDecoder{
 	public:
-		int audio_clock;
+		double audio_clock;
 		DecoderAudio(AVStream* stream);
 		~DecoderAudio();
 		static void cbf(int event, void* user, void* info);

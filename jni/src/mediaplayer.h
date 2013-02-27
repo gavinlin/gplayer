@@ -80,7 +80,7 @@ class MediaPlayer{
 		status_t prepareAudio();
 		static void decode(uint8_t* buffer, int buffer_size);
 		static void decode(AVFrame *frame, double pts);
-		static int getAudioClock();
+		static double getAudioClock();
 };
 
 #endif //_GPLAYER_MEDIAPLAYER_H
