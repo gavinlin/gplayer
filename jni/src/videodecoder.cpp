@@ -72,6 +72,8 @@ DecoderVideo::~DecoderVideo(){
 	pthread_cond_signal(&pictq_cond);
 	pthread_mutex_destroy(&pictq_mutex);
 	pthread_cond_destroy(&pictq_cond);
+	if(img_convert_ctx)
+		sws_freeContext(img_convert_ctx);
 }
 
 bool DecoderVideo::prepare(){

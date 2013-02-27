@@ -331,6 +331,8 @@ status_t MediaPlayer::suspend(){
 
 	AndroidAudioTrack_unregister();
 	AndroidSurface_unregister();
+	if(img_convert_ctx)
+		sws_freeContext(img_convert_ctx);
 	TRACE("suspend successed");
 	return NO_ERROR;
 }
