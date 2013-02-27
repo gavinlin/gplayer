@@ -27,7 +27,7 @@ typedef void (*AudioDecodingHandler)(uint8_t*, int);
 
 #define ANDROID_DEFAULT_FREQ 44100
 #define ANDROID_DEFAULT_NBCHANNELS 2
-#define SDL_AUDIO_BUFFER_SIZE 4096
+#define SDL_AUDIO_BUFFER_SIZE 8012 
 
 class DecoderAudio : public IDecoder{
 	public:
