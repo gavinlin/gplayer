@@ -31,15 +31,17 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
+#ifdef FROM_SURFACE_CODE 
 int AndroidSurface_register(JNIEnv* env, jobject jsurface);
-
 int AndroidSurface_getPixels(int width, int height, void** pixels);
-
 int AndroidSurface_updateSurface();
-
 int AndroidSurface_unregister();
-
+#else
+int (*AndroidSurface_register)(JNIEnv* env, jobject jsurface) __attribute__((weak));
+int (*AndroidSurface_getPixels)(int width, int height, void** pixels) __attribute((weak));
+int (*AndroidSurface_updateSurface)() __attribute((weak));
+int (*AndroidSurface_unregister)() __attribute((weak));
+#endif
 #ifdef __cplusplus
 }
 #endif

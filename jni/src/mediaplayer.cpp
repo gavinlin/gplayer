@@ -29,15 +29,16 @@ extern "C"{
 }
 
 #include "mediaplayer.h"
-#include "output.h"
+#include "audiotrack.h"
+#include "surface.h"
 
 static MediaPlayer* sPlayer;
 static void* libhandle = 0;
+static void* libsurfacehandle = 0;
 
 MediaPlayer::MediaPlayer(){
 	sPlayer = this;
-		libhandle = dlopen("/data/data/com.lingavin.gplayer/lib/libatrack.so", RTLD_NOW);
-	TRACE("dlopen is %d !!!!!!!!!!!!",libhandle);
+	libhandle = dlopen("/data/data/com.lingavin.gplayer/lib/libatrack.so", RTLD_NOW);
 	if(libhandle){
 		AndroidAudioTrack_register = (typeof(AndroidAudioTrack_register)) dlsym(libhandle,"AndroidAudioTrack_register");
 		AndroidAudioTrack_set= (typeof(AndroidAudioTrack_set)) dlsym(libhandle,"AndroidAudioTrack_set");
@@ -48,9 +49,18 @@ MediaPlayer::MediaPlayer(){
 		AndroidAudioTrack_unregister = (typeof(AndroidAudioTrack_unregister)) dlsym(libhandle,"AndroidAudioTrack_unregister");
 	}
 
+	libsurfacehandle= dlopen("/data/data/com.lingavin.gplayer/lib/libsurface.so", RTLD_NOW);
+	if(libsurfacehandle){
+		AndroidSurface_register = (typeof(AndroidSurface_register)) dlsym(libsurfacehandle,"AndroidSurface_register");
+		AndroidSurface_getPixels = (typeof(AndroidSurface_getPixels)) dlsym(libsurfacehandle,"AndroidSurface_getPixels");
+		AndroidSurface_updateSurface = (typeof(AndroidSurface_updateSurface)) dlsym(libsurfacehandle,"AndroidSurface_updateSurface");
+		AndroidSurface_unregister = (typeof(AndroidSurface_unregister)) dlsym(libsurfacehandle,"AndroidSurface_unregister");
+	}
 }
 
 MediaPlayer::~MediaPlayer(){
+	dlclose(libhandle);
+	dlclose(libsurfacehandle);
 }
 
 int MediaPlayer::getAudioClock(){
@@ -74,7 +84,7 @@ void MediaPlayer::decode(AVFrame *frame, double pts){
 			sPlayer->mVideoHeight,
 			sPlayer->mFrame->data,
 			sPlayer->mFrame->linesize);
-	Output::VideoDriver_updateSurface();
+	AndroidSurface_updateSurface();
 }
 
 void MediaPlayer::decodeMovie(void* ptr){
@@ -194,7 +204,7 @@ status_t MediaPlayer::setDataSource(const char* path){
 }
 
 status_t MediaPlayer::setVideoSurface(JNIEnv* env, jobject jsurface){
-	if(Output::VideoDriver_register(env,jsurface) != 0){
+	if(AndroidSurface_register(env,jsurface) != 0){
 		return INVALID_OPERATION;
 	}
 
@@ -238,7 +248,7 @@ status_t MediaPlayer::prepareVideo(){
 			video_st->codec->width,video_st->codec->height,
 			PIX_FMT_RGB565,SWS_POINT,NULL,NULL,NULL);
 	void* pixels;
-	if(Output::VideoDriver_getPixels(video_st->codec->width,
+	if(AndroidSurface_getPixels(video_st->codec->width,
 										video_st->codec->height,
 										&pixels) != 0){
 		return INVALID_OPERATION;
@@ -320,7 +330,7 @@ status_t MediaPlayer::suspend(){
 	av_close_input_file(pFormatCtx);
 
 	AndroidAudioTrack_unregister();
-	Output::VideoDriver_unregister();
+	AndroidSurface_unregister();
 	TRACE("suspend successed");
 	return NO_ERROR;
 }

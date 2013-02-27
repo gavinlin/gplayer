@@ -20,7 +20,6 @@
 #include <time.h>
 #include "videodecoder.h"
 #include "trace.h"
-#include "output.h"
 extern "C"{
 #include "libswscale/swscale.h"
 }
