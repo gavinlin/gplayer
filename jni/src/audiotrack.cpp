@@ -6,6 +6,11 @@
 #include <media/AudioSystem.h>
 #include <utils/Errors.h>
 
+#ifdef ANDROID4_2.h
+#include <system/audio.h>
+#include <system/audio_policy.h>
+#endif
+
 #define TAG "AudioTrackWrapper"
 
 namespace android {
@@ -31,7 +36,6 @@ namespace android {
 			track->start();
 			return ANDROID_AUDIOTRACK_RESULT_SUCCESS;
 		}
-
 		int AndroidAudioTrack_set(int streamType,
 				uint32_t sampleRate,
 				int format,
@@ -46,6 +50,16 @@ namespace android {
 
 			__android_log_print(ANDROID_LOG_INFO, TAG, "setting audio track");
 
+#ifdef ANDROID4_2
+			status_t ret = track->set((audio_stream_type_t)streamType, 
+					sampleRate, 
+					(audio_format_t)format, 
+					(audio_channel_mask_t)channels, 
+					frameCount, 
+					(audio_output_flags_t)flags,
+					cbf, 
+					user);
+#else
 			status_t ret = track->set(streamType, 
 					sampleRate, 
 					format, 
@@ -54,7 +68,7 @@ namespace android {
 					flags,
 					cbf, 
 					user);
-
+#endif
 			if (ret != NO_ERROR) {
 				return ANDROID_AUDIOTRACK_RESULT_ERRNO;
 			}

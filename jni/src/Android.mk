@@ -33,7 +33,7 @@ LOCAL_PATH := $(call my-dir)
 #include $(PREBUILT_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)
-LOCAL_MODULE := atrack
+LOCAL_MODULE := atrack14
 LOCAL_CFLAGS += -O2 -Wall -DBUILD_STANDALONE -DCPU_ARM -DAVSREMOTE -finline-functions -fPIC -D__ARM_EABI__=1 -DOLD_LOGDH
 LOCAL_SRC_FILES := audiotrack.cpp
 LOCAL_ARM_MODE := arm
@@ -46,7 +46,7 @@ LOCAL_LDLIBS := -llog \
 include $(BUILD_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)
-LOCAL_MODULE := surface 
+LOCAL_MODULE := surface14 
 LOCAL_CFLAGS += -O2 -Wall -DBUILD_STANDALONE -DCPU_ARM -DAVSREMOTE -finline-functions -fPIC -D__ARM_EABI__=1 -DOLD_LOGDH
 LOCAL_SRC_FILES := surface.cpp
 LOCAL_ARM_MODE := arm
@@ -64,6 +64,37 @@ LOCAL_LDLIBS := -llog \
 
 include $(BUILD_SHARED_LIBRARY)
 
+include $(CLEAR_VARS)
+LOCAL_MODULE := atrack17
+LOCAL_CFLAGS += -O2 -Wall -DBUILD_STANDALONE -DCPU_ARM -DAVSREMOTE -finline-functions -fPIC -D__ARM_EABI__=1 -DOLD_LOGDH -DANDROID4_2
+LOCAL_SRC_FILES := audiotrack.cpp
+LOCAL_ARM_MODE := arm
+LOCAL_C_INCLUDES += \
+	$(LOCAL_PATH)/../include/android4_2 \
+	$(LOCAL_PATH)/../include/common
+LOCAL_LDLIBS := -llog \
+	/home/gavin/workspace/gplayer/jni/prebuilt/android4_2/libmedia.so \
+	/home/gavin/workspace/gplayer/jni/prebuilt/android4_2/libutils.so 
+include $(BUILD_SHARED_LIBRARY)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := surface17 
+LOCAL_CFLAGS += -O2 -Wall -DBUILD_STANDALONE -DCPU_ARM -DAVSREMOTE -finline-functions -fPIC -D__ARM_EABI__=1 -DOLD_LOGDH -DANDROID4_2
+LOCAL_SRC_FILES := surface.cpp
+LOCAL_ARM_MODE := arm
+LOCAL_C_INCLUDES += \
+	$(LOCAL_PATH)/../include/android4_2 \
+	$(LOCAL_PATH)/../include/android4_2/core \
+	$(LOCAL_PATH)/../include/common
+
+LOCAL_LDLIBS := -llog \
+	/home/gavin/workspace/gplayer/jni/prebuilt/android4_2/libsurfaceflinger.so \
+	/home/gavin/workspace/gplayer/jni/prebuilt/android4_2/libbinder.so \
+	/home/gavin/workspace/gplayer/jni/prebuilt/android4_2/libskia.so \
+	/home/gavin/workspace/gplayer/jni/prebuilt/android4_2/libgui.so \
+	/home/gavin/workspace/gplayer/jni/prebuilt/android4_2/libutils.so
+
+include $(BUILD_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := mediaplayer

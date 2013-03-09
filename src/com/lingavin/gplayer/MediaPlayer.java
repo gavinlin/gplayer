@@ -22,14 +22,14 @@ public class MediaPlayer{
 	}
 
 	public MediaPlayer(){
-		nativeSetup();
+		nativeSetup(Integer.parseInt(Build.VERSION.SDK));
 	}
 	
 	public native void setDataSource(String path);
 	private native void setVideoSurface(Surface surface);
-	private native void nativePrepare(int sdkVersion);
+	private native void nativePrepare();
 	private static native final void nativeInit();
-	private native void nativeSetup();
+	private native void nativeSetup(int sdkVersion);
 	private native void nativeStart();
 	private native void nativeSuspend();
 //	private native int nativeSuspendOrResume(boolean isSuspend);
@@ -55,7 +55,7 @@ public class MediaPlayer{
 	}
 
 	public void prepare() {
-		nativePrepare(Integer.parseInt(Build.VERSION.SDK));
+		nativePrepare();
 	}
 
 	public void suspend() {

@@ -45,11 +45,11 @@ enum media_player_status{
 
 class MediaPlayer{
 	public:
-		MediaPlayer();
+		MediaPlayer(int sdkVersion);
 		~MediaPlayer();
 		status_t setDataSource(const char* path);
 		status_t setVideoSurface(JNIEnv *env, jobject jsurface);
-		status_t prepare(int sdkVersion);
+		status_t prepare();
 		status_t start();
 		status_t suspend();
 		bool isPlaying();
@@ -71,6 +71,7 @@ class MediaPlayer{
 		pthread_mutex_t mLock;
 		DecoderAudio *mDecoderAudio;
 		DecoderVideo *mDecoderVideo;
+		int mSdkVersion;
 //		RefreshThread *mRefreshThread;
 
 		static void* startPlayer(void* ptr);

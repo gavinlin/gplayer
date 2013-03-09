@@ -36,9 +36,14 @@ static MediaPlayer* sPlayer;
 static void* libhandle = 0;
 static void* libsurfacehandle = 0;
 
-MediaPlayer::MediaPlayer(){
+MediaPlayer::MediaPlayer(int sdkVersion){
 	sPlayer = this;
-	libhandle = dlopen("/data/data/com.lingavin.gplayer/lib/libatrack.so", RTLD_NOW);
+	mSdkVersion = sdkVersion;
+	if(mSdkVersion >= 17){
+		libhandle = dlopen("/data/data/com.lingavin.gplayer/lib/libatrack17.so", RTLD_NOW);
+	}else{
+		libhandle = dlopen("/data/data/com.lingavin.gplayer/lib/libatrack14.so", RTLD_NOW);
+	}
 	if(libhandle){
 		AndroidAudioTrack_register = (typeof(AndroidAudioTrack_register)) dlsym(libhandle,"AndroidAudioTrack_register");
 		AndroidAudioTrack_set= (typeof(AndroidAudioTrack_set)) dlsym(libhandle,"AndroidAudioTrack_set");
@@ -49,7 +54,11 @@ MediaPlayer::MediaPlayer(){
 		AndroidAudioTrack_unregister = (typeof(AndroidAudioTrack_unregister)) dlsym(libhandle,"AndroidAudioTrack_unregister");
 	}
 
-	libsurfacehandle= dlopen("/data/data/com.lingavin.gplayer/lib/libsurface.so", RTLD_NOW);
+	if(mSdkVersion >= 17){
+		libsurfacehandle= dlopen("/data/data/com.lingavin.gplayer/lib/libsurface17.so", RTLD_NOW);
+	}else{
+		libsurfacehandle= dlopen("/data/data/com.lingavin.gplayer/lib/libsurface14.so", RTLD_NOW);
+	}
 	if(libsurfacehandle){
 		AndroidSurface_register = (typeof(AndroidSurface_register)) dlsym(libsurfacehandle,"AndroidSurface_register");
 		AndroidSurface_getPixels = (typeof(AndroidSurface_getPixels)) dlsym(libsurfacehandle,"AndroidSurface_getPixels");
@@ -295,7 +304,7 @@ status_t MediaPlayer::prepareAudio(){
 	return NO_ERROR;
 }
 
-status_t MediaPlayer::prepare(int sdkVersion){
+status_t MediaPlayer::prepare(){
 	status_t ret;
 
 	mCurrentState = MEDIA_PLAYER_PREPARING; 

@@ -1,7 +1,11 @@
 #include <stdlib.h>
 #define FROM_SURFACE_CODE 1
 #include "surface.h"
+#ifdef ANDROID4_2
+#include <gui/Surface.h>
+#else
 #include <surfaceflinger/Surface.h>
+#endif
 #include <utils/Log.h>
 #include <SkBitmap.h>
 #include <SkCanvas.h>

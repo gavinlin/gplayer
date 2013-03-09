@@ -39,8 +39,8 @@ static void setMediaPlayer(JNIEnv* env, jobject thiz, MediaPlayer* player){
 	env->SetIntField(thiz, fields.context, (int)player);
 }
 
-static void com_lingavin_gplayer_MediaPlayer_nativeSetup(JNIEnv* env,jobject thiz){
-	MediaPlayer* mp = new MediaPlayer();
+static void com_lingavin_gplayer_MediaPlayer_nativeSetup(JNIEnv* env,jobject thiz, jint sdkVersion){
+	MediaPlayer* mp = new MediaPlayer(sdkVersion);
 	if(mp == NULL){
 		ERROR("nativeSetup error : mp is null");
 		return ;
@@ -62,9 +62,9 @@ static void com_lingavin_gplayer_MediaPlayer_nativeSuspend(JNIEnv *env, jobject 
 	mp->suspend();
 }
 
-static void com_lingavin_gplayer_MediaPlayer_nativePrepare(JNIEnv* env, jobject thiz,jint sdkVersion){
+static void com_lingavin_gplayer_MediaPlayer_nativePrepare(JNIEnv* env, jobject thiz){
 	MediaPlayer* mp = getMediaPlayer(env, thiz);
-	mp->prepare(sdkVersion);
+	mp->prepare();
 }
 
 static void com_lingavin_gplayer_MediaPlayer_nativeStart(JNIEnv* env,jobject thiz){
@@ -135,8 +135,8 @@ static JNINativeMethod gMethods[] = {
 	{"setDataSource", "(Ljava/lang/String;)V", (void *)com_lingavin_gplayer_MediaPlayer_setDataSource },
 	{"nativeInit", "()V", (void *)com_lingavin_gplayer_MediaPlayer_nativeInit },
 	{"setVideoSurface", "(Landroid/view/Surface;)V", (void *)com_lingavin_gplayer_MediaPlayer_setVideoSurface},
-	{"nativeSetup", "()V", (void *)com_lingavin_gplayer_MediaPlayer_nativeSetup},
-	{"nativePrepare", "(I)V", (void *)com_lingavin_gplayer_MediaPlayer_nativePrepare},
+	{"nativeSetup", "(I)V", (void *)com_lingavin_gplayer_MediaPlayer_nativeSetup},
+	{"nativePrepare", "()V", (void *)com_lingavin_gplayer_MediaPlayer_nativePrepare},
 	{"nativeStart", "()V", (void *)com_lingavin_gplayer_MediaPlayer_nativeStart},
 	{"nativeSuspend", "()V", (void *)com_lingavin_gplayer_MediaPlayer_nativeSuspend},
 	{"nativeIsPlaying", "()Z", (void *)com_lingavin_gplayer_MediaPlayer_nativeIsPlaying},
