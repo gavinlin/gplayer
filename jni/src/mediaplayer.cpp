@@ -41,6 +41,8 @@ MediaPlayer::MediaPlayer(int sdkVersion){
 	mSdkVersion = sdkVersion;
 	if(mSdkVersion >= 17){
 		libhandle = dlopen("/data/data/com.lingavin.gplayer/lib/libatrack17.so", RTLD_NOW);
+	}else if(mSdkVersion == 10){
+		libhandle = dlopen("/data/data/com.lingavin.gplayer/lib/libatrack10.so", RTLD_NOW);
 	}else{
 		libhandle = dlopen("/data/data/com.lingavin.gplayer/lib/libatrack14.so", RTLD_NOW);
 	}
@@ -56,9 +58,13 @@ MediaPlayer::MediaPlayer(int sdkVersion){
 
 	if(mSdkVersion >= 17){
 		libsurfacehandle= dlopen("/data/data/com.lingavin.gplayer/lib/libsurface17.so", RTLD_NOW);
+	}else if(mSdkVersion == 10){
+		libsurfacehandle= dlopen("/data/data/com.lingavin.gplayer/lib/libsurface10.so", RTLD_NOW);
 	}else{
+
 		libsurfacehandle= dlopen("/data/data/com.lingavin.gplayer/lib/libsurface14.so", RTLD_NOW);
 	}
+
 	if(libsurfacehandle){
 		AndroidSurface_register = (typeof(AndroidSurface_register)) dlsym(libsurfacehandle,"AndroidSurface_register");
 		AndroidSurface_getPixels = (typeof(AndroidSurface_getPixels)) dlsym(libsurfacehandle,"AndroidSurface_getPixels");
@@ -203,7 +209,10 @@ status_t MediaPlayer::setDataSource(const char* path){
 	}
 	pFormatCtx = ic;
 	TRACE("avformat open input successed");
-	if(av_find_stream_info(pFormatCtx) < 0){
+//	if(av_find_stream_info(pFormatCtx) < 0){
+//		ret = INVALID_OPERATION;
+//	}
+	if(avformat_find_stream_info(pFormatCtx, NULL) < 0){
 		ret = INVALID_OPERATION;
 	}
 
@@ -241,7 +250,7 @@ status_t MediaPlayer::prepareVideo(){
 
 	codecCtx = pFormatCtx->streams[mVideoStreamIndex]->codec;
 	codec = avcodec_find_decoder(codecCtx->codec_id);
-	if(!codec || (avcodec_open(codecCtx, codec) < 0)){
+	if(!codec || (avcodec_open2(codecCtx, codec, NULL) < 0)){
 		return INVALID_OPERATION;
 	}
 
@@ -297,7 +306,7 @@ status_t MediaPlayer::prepareAudio(){
 		return INVALID_OPERATION;
 	}
 
-	if(avcodec_open(codecCtx, codec) < 0){
+	if(avcodec_open2(codecCtx, codec, NULL) < 0){
 		return INVALID_OPERATION;
 	}
 
@@ -336,7 +345,8 @@ status_t MediaPlayer::suspend(){
 	delete mDecoderAudio;
 	delete mDecoderVideo;
 
-	av_close_input_file(pFormatCtx);
+	// av_close_input_file(pFormatCtx);
+	avformat_close_input(&pFormatCtx);
 
 	AndroidAudioTrack_unregister();
 	AndroidSurface_unregister();

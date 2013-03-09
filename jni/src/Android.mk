@@ -33,6 +33,39 @@ LOCAL_PATH := $(call my-dir)
 #include $(PREBUILT_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)
+LOCAL_MODULE := atrack10
+LOCAL_CFLAGS += -O2 -Wall -DBUILD_STANDALONE -DCPU_ARM -DAVSREMOTE -finline-functions -fPIC -D__ARM_EABI__=1 -DOLD_LOGDH -DANDROID2_3
+LOCAL_SRC_FILES := audiotrack.cpp
+LOCAL_ARM_MODE := arm
+LOCAL_C_INCLUDES += \
+	$(LOCAL_PATH)/../include/android2_3 \
+	$(LOCAL_PATH)/../include/common
+LOCAL_LDLIBS := -llog \
+	/home/gavin/workspace/gplayer/jni/prebuilt/android2_3/libmedia.so \
+	/home/gavin/workspace/gplayer/jni/prebuilt/android2_3/libutils.so 
+include $(BUILD_SHARED_LIBRARY)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := surface10 
+LOCAL_CFLAGS += -O2 -Wall -DBUILD_STANDALONE -DCPU_ARM -DAVSREMOTE -finline-functions -fPIC -D__ARM_EABI__=1 -DOLD_LOGDH -DANDROID2_3
+LOCAL_SRC_FILES := surface.cpp
+LOCAL_ARM_MODE := arm
+LOCAL_C_INCLUDES += \
+	$(LOCAL_PATH)/../include/android2_3 \
+	$(LOCAL_PATH)/../include/android2_3/core \
+	$(LOCAL_PATH)/../include/common
+
+LOCAL_LDLIBS := -llog \
+	/home/gavin/workspace/gplayer/jni/prebuilt/android2_3/libsurfaceflinger.so \
+	/home/gavin/workspace/gplayer/jni/prebuilt/android2_3/libsurfaceflinger_client.so \
+	/home/gavin/workspace/gplayer/jni/prebuilt/android2_3/libbinder.so \
+	/home/gavin/workspace/gplayer/jni/prebuilt/android2_3/libskia.so \
+	/home/gavin/workspace/gplayer/jni/prebuilt/android2_3/libgui.so \
+	/home/gavin/workspace/gplayer/jni/prebuilt/android2_3/libutils.so
+
+include $(BUILD_SHARED_LIBRARY)
+
+include $(CLEAR_VARS)
 LOCAL_MODULE := atrack14
 LOCAL_CFLAGS += -O2 -Wall -DBUILD_STANDALONE -DCPU_ARM -DAVSREMOTE -finline-functions -fPIC -D__ARM_EABI__=1 -DOLD_LOGDH
 LOCAL_SRC_FILES := audiotrack.cpp

@@ -10,6 +10,7 @@
 #include <SkBitmap.h>
 #include <SkCanvas.h>
 #define TAG "SurfaceWrapper"
+#include "trace.h"
 
 namespace android { 
 	extern "C" {
@@ -111,7 +112,6 @@ namespace android {
 			if(sSurface == NULL) {
 				return ANDROID_SURFACE_RESULT_JNI_EXCEPTION;
 			}
-
 			if (!sSurface->isValid()) {
 				return ANDROID_SURFACE_RESULT_NOT_VALID;
 			}
