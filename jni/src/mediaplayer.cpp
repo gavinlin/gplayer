@@ -25,6 +25,7 @@ extern "C"{
 #include "libavcodec/avcodec.h"
 #include "libswresample/swresample.h"
 #include "libswscale/swscale.h"
+#include "libavutil/avstring.h"
 
 }
 
@@ -200,8 +201,7 @@ status_t MediaPlayer::setDataSource(const char* path){
 	status_t ret = NO_ERROR;
 	AVFormatContext *ic = NULL; // must be null here ,or it will be crush
 	av_register_all();
-	memset(mFilePath,0,sizeof(mFilePath));
-	strcpy(mFilePath,path);
+    av_strlcpy(mFilePath, path, sizeof(mFilePath));
 	TRACE("mediaplayer setData successed mFilePath is %s",mFilePath);
 	TRACE("register all");
 	if(avformat_open_input(&ic, mFilePath, NULL, NULL) != 0){
