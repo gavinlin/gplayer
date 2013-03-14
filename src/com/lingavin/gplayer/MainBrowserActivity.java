@@ -20,6 +20,8 @@ public class MainBrowserActivity extends BaseBrowserActivity
         extensionToActivity.put("avi", GPlayerActivity.class);
         extensionToActivity.put("wmv", GPlayerActivity.class);
         extensionToActivity.put("rm", GPlayerActivity.class);
+        extensionToActivity.put("mkv", GPlayerActivity.class);
+        extensionToActivity.put("mov", GPlayerActivity.class);
     }
 
     @Override

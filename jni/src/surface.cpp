@@ -11,6 +11,7 @@
 #include <SkCanvas.h>
 #define TAG "SurfaceWrapper"
 #include "trace.h"
+#define SDK_VERSION_FROYO 8
 
 namespace android { 
 	extern "C" {
@@ -18,9 +19,10 @@ namespace android {
 		static SkBitmap	sBitmapClient;
 		static SkBitmap	sBitmapSurface;
 
-		static Surface* getNativeSurface(JNIEnv* env, jobject jsurface) {
+		static Surface* getNativeSurface(JNIEnv* env, jobject jsurface,int sdkVersion) {
 			jclass clazz = env->FindClass("android/view/Surface");
-			jfieldID field_surface = env->GetFieldID(clazz, "mNativeSurface", "I");//mSurface if froyo
+			jfieldID field_surface = env->GetFieldID(clazz, 
+					sdkVersion > SDK_VERSION_FROYO ? "mNativeSurface" : "mSurface", "I");//mSurface if froyo
 			if(field_surface == NULL) {
 				return NULL;
 			}
@@ -60,10 +62,10 @@ namespace android {
 			return 0;
 		}
 
-		int AndroidSurface_register(JNIEnv* env, jobject jsurface) {
+		int AndroidSurface_register(JNIEnv* env, jobject jsurface, int sdkVersion) {
 			__android_log_print(ANDROID_LOG_INFO, TAG, "registering video surface");
 
-			sSurface = getNativeSurface(env, jsurface);
+			sSurface = getNativeSurface(env, jsurface, sdkVersion);
 			if(sSurface == NULL) {
 				return ANDROID_SURFACE_RESULT_JNI_EXCEPTION;
 			}

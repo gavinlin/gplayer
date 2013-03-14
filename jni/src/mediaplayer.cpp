@@ -222,7 +222,7 @@ status_t MediaPlayer::setDataSource(const char* path){
 }
 
 status_t MediaPlayer::setVideoSurface(JNIEnv* env, jobject jsurface){
-	if(AndroidSurface_register(env,jsurface) != 0){
+	if(AndroidSurface_register(env,jsurface,mSdkVersion) != 0){
 		return INVALID_OPERATION;
 	}
 
