@@ -135,7 +135,7 @@ bool DecoderAudio::decode(void* ptr){
 	
 	AVPacket pPacket;
 	int new_packet = 0;
-	while(mRunning){
+//	while(mRunning){
 //		if(audio_pkt.data){
 //			av_free_packet(&audio_pkt);
 //		}
@@ -153,7 +153,7 @@ bool DecoderAudio::decode(void* ptr){
 //				return false;
 //			}
 //		}
-	}	
+//	}	
 }
 
 int DecoderAudio::audio_decode_frame(void* decoderAudio, void* buf,int buf_size, double* pts_ptr){
