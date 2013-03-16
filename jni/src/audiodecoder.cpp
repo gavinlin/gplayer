@@ -27,12 +27,6 @@ DecoderAudio::DecoderAudio(AVStream* stream) : IDecoder(stream){
 
 DecoderAudio::~DecoderAudio(){
 	mRunning = false;
-	if(audio_buf)
-		free(audio_buf);
-	if(audio_buf2)
-		free(audio_buf2);
-		av_free_packet(&audio_pkt);
-		av_free_packet(&audio_pkt_temp);
 }
 
 bool DecoderAudio::prepare(){
@@ -135,7 +129,7 @@ bool DecoderAudio::decode(void* ptr){
 	
 	AVPacket pPacket;
 	int new_packet = 0;
-	while(mRunning){
+	// while(mRunning){
 //		if(audio_pkt.data){
 //			av_free_packet(&audio_pkt);
 //		}
@@ -153,7 +147,7 @@ bool DecoderAudio::decode(void* ptr){
 //				return false;
 //			}
 //		}
-	}	
+	// }	
 }
 
 int DecoderAudio::audio_decode_frame(void* decoderAudio, void* buf,int buf_size, double* pts_ptr){
