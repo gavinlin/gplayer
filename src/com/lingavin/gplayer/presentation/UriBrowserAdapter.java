@@ -39,7 +39,7 @@ public class UriBrowserAdapter extends BaseAdapter
         final Uri uri = uris.get(i);
         final TextView textView = (TextView) browserItem.findViewById(R.id.browserItemText);
         textView.setText(uri.getLastPathSegment());
-        imageView.setImageResource(R.drawable.book);
+        imageView.setImageResource(R.drawable.player);
         return browserItem;
     }
 

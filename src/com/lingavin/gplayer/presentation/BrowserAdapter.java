@@ -61,7 +61,7 @@ public class BrowserAdapter extends BaseAdapter
         }
         else
         {
-            imageView.setImageResource(R.drawable.book);
+            imageView.setImageResource(R.drawable.player);
         }
         return browserItem;
     }

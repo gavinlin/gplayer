@@ -10,5 +10,6 @@
     <TextView android:layout_width="fill_parent"
               android:layout_height="fill_parent"
               android:id="@+id/browserItemText"
-              android:gravity="center_vertical"/>
+              android:gravity="center_vertical"
+              android:textColor="@android:color/black"/>
 </LinearLayout>
