@@ -33,6 +33,10 @@ extern "C"{
 #include "audiotrack.h"
 #include "surface.h"
 
+#define ANDROID_JELLYBEAN_2 17
+#define ANDROID_ICS 14
+#define ANDROID_GINGERBREAD 10
+
 static MediaPlayer* sPlayer;
 static void* libhandle = 0;
 static void* libsurfacehandle = 0;
@@ -40,9 +44,9 @@ static void* libsurfacehandle = 0;
 MediaPlayer::MediaPlayer(int sdkVersion){
 	sPlayer = this;
 	mSdkVersion = sdkVersion;
-	if(mSdkVersion >= 17){
+	if(mSdkVersion >= ANDROID_JELLYBEAN_2){
 		libhandle = dlopen("/data/data/com.lingavin.gplayer/lib/libatrack17.so", RTLD_NOW);
-	}else if(mSdkVersion == 10){
+	}else if(mSdkVersion == ANDROID_GINGERBREAD){
 		libhandle = dlopen("/data/data/com.lingavin.gplayer/lib/libatrack10.so", RTLD_NOW);
 	}else{
 		libhandle = dlopen("/data/data/com.lingavin.gplayer/lib/libatrack14.so", RTLD_NOW);
@@ -57,9 +61,9 @@ MediaPlayer::MediaPlayer(int sdkVersion){
 		AndroidAudioTrack_unregister = (typeof(AndroidAudioTrack_unregister)) dlsym(libhandle,"AndroidAudioTrack_unregister");
 	}
 
-	if(mSdkVersion >= 17){
+	if(mSdkVersion >= ANDROID_JELLYBEAN_2){
 		libsurfacehandle= dlopen("/data/data/com.lingavin.gplayer/lib/libsurface17.so", RTLD_NOW);
-	}else if(mSdkVersion == 10){
+	}else if(mSdkVersion == ANDROID_GINGERBREAD){
 		libsurfacehandle= dlopen("/data/data/com.lingavin.gplayer/lib/libsurface10.so", RTLD_NOW);
 	}else{
 
@@ -342,14 +346,16 @@ status_t MediaPlayer::suspend(){
 		ERROR("stop playerthread error");
 	}
 
+	AndroidAudioTrack_stop();
+	AndroidAudioTrack_unregister();
+	AndroidSurface_unregister();
+
 	delete mDecoderAudio;
 	delete mDecoderVideo;
 
 	// av_close_input_file(pFormatCtx);
 	avformat_close_input(&pFormatCtx);
 
-	AndroidAudioTrack_unregister();
-	AndroidSurface_unregister();
 	if(img_convert_ctx)
 		sws_freeContext(img_convert_ctx);
 	TRACE("suspend successed");
