@@ -27,7 +27,7 @@ IDecoder::~IDecoder(){
 	if(mRunning){
 		stop();
 	}
-	free(mQueue);
+	delete mQueue;
 	avcodec_close(mStream->codec);
 }
 
