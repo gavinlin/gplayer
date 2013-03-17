@@ -46,7 +46,7 @@ void PacketQueue::flush(){
 
 	for(pkt = mFirst; pkt != NULL; pkt = pkt1){
 		av_free_packet(&pkt->pkt);
-		av_free(&pkt);
+		av_free(pkt);
 		pkt1 = pkt->next;
 	}
 	mLast = NULL;
