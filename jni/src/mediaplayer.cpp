@@ -34,6 +34,7 @@ extern "C"{
 #include "surface.h"
 
 #define ANDROID_JELLYBEAN_2 17
+#define ANDROID_JELLYBEAN 16
 #define ANDROID_ICS 14
 #define ANDROID_GINGERBREAD 10
 
@@ -48,6 +49,8 @@ MediaPlayer::MediaPlayer(int sdkVersion){
 		libhandle = dlopen("/data/data/com.lingavin.gplayer/lib/libatrack17.so", RTLD_NOW);
 	}else if(mSdkVersion == ANDROID_GINGERBREAD){
 		libhandle = dlopen("/data/data/com.lingavin.gplayer/lib/libatrack10.so", RTLD_NOW);
+	}else if(mSdkVersion == ANDROID_JELLYBEAN){
+		libhandle = dlopen("/data/data/com.lingavin.gplayer/lib/libatrack16.so", RTLD_NOW);
 	}else{
 		libhandle = dlopen("/data/data/com.lingavin.gplayer/lib/libatrack14.so", RTLD_NOW);
 	}
@@ -65,8 +68,9 @@ MediaPlayer::MediaPlayer(int sdkVersion){
 		libsurfacehandle= dlopen("/data/data/com.lingavin.gplayer/lib/libsurface17.so", RTLD_NOW);
 	}else if(mSdkVersion == ANDROID_GINGERBREAD){
 		libsurfacehandle= dlopen("/data/data/com.lingavin.gplayer/lib/libsurface10.so", RTLD_NOW);
+	}else if(mSdkVersion == ANDROID_JELLYBEAN){
+		libsurfacehandle= dlopen("/data/data/com.lingavin.gplayer/lib/libsurface16.so", RTLD_NOW);
 	}else{
-
 		libsurfacehandle= dlopen("/data/data/com.lingavin.gplayer/lib/libsurface14.so", RTLD_NOW);
 	}
 

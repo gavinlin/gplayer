@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #define FROM_SURFACE_CODE 1
 #include "surface.h"
-#ifdef ANDROID4_2
+#ifdef ANDROID4
 #include <gui/Surface.h>
 #else
 #include <surfaceflinger/Surface.h>

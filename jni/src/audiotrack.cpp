@@ -6,7 +6,7 @@
 #include <media/AudioSystem.h>
 #include <utils/Errors.h>
 
-#ifdef ANDROID4_2.h
+#ifdef ANDROID4
 #include <system/audio.h>
 #include <system/audio_policy.h>
 #endif
@@ -50,7 +50,7 @@ namespace android {
 
 			__android_log_print(ANDROID_LOG_INFO, TAG, "setting audio track");
 
-#ifdef ANDROID4_2
+#ifdef ANDROID4
 			status_t ret = track->set((audio_stream_type_t)streamType, 
 					sampleRate, 
 					(audio_format_t)format, 
