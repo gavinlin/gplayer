@@ -112,7 +112,7 @@ bool DecoderVideo::process(AVPacket *packet)
 						 &completed,
 						 packet);
 	end = clock();
-	ERROR("time deocde_video2 using %f ms",(double)(end - start) / CLOCKS_PER_SEC);
+	// ERROR("time deocde_video2 using %f ms",(double)(end - start) / CLOCKS_PER_SEC);
 
 //	if (packet->dts == AV_NOPTS_VALUE && mFrame->opaque
 //			&& *(uint64_t*) mFrame->opaque != AV_NOPTS_VALUE) {
@@ -221,7 +221,7 @@ int DecoderVideo::queue_picture(AVFrame* pFrame, double pts){
 				vp->bmp->data,
 				vp->bmp->linesize);
 		end = clock();
-		ERROR("time swscale using %f ms",(double)(end - start) / CLOCKS_PER_SEC);
+		// ERROR("time swscale using %f ms",(double)(end - start) / CLOCKS_PER_SEC);
 
 		pthread_mutex_unlock(&pictq_mutex);
 
@@ -265,12 +265,12 @@ void DecoderVideo::schedule_refresh(int time){
 
 void DecoderVideo::videoDisplay(VideoPicture* vp){
 	if(vp->bmp){
-		TRACE("video display");
+		// TRACE("video display");
 		clock_t start,end;
 		start = clock();
 		onDecode(vp->bmp,0);
 		end = clock();
-		ERROR("222time swscale using %f ms",(double)(end - start) / CLOCKS_PER_SEC);
+		// ERROR("222time swscale using %f ms",(double)(end - start) / CLOCKS_PER_SEC);
 	}
 }
 

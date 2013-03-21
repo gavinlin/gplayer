@@ -107,7 +107,7 @@ namespace android {
 			if(!track->stopped()) {
 				track->stop();
 			}
-			free(track);
+			delete track;
 			__android_log_print(ANDROID_LOG_INFO, TAG, "unregistered");
 			return ANDROID_AUDIOTRACK_RESULT_SUCCESS;
 		}
