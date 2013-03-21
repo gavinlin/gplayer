@@ -100,7 +100,6 @@ public class MovieView extends SurfaceView {
 		
 		@Override
 		public int getDuration() {
-			// TODO Auto-generated method stub
 			return mp.getDuration();
 		}
 		

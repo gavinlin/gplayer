@@ -371,3 +371,11 @@ bool MediaPlayer::isPlaying(){
 	return mCurrentState == MEDIA_PLAYER_STARTED ? true : false;
 }
 
+int MediaPlayer::getDuration(){
+	TRACE("native duration is %d",mDuration);
+	return mDuration/1000;
+}
+
+int MediaPlayer::getCurrentPosition(){
+	return (int)(getAudioClock()*1000);
+}

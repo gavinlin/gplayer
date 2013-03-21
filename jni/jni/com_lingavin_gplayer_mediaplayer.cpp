@@ -49,11 +49,9 @@ static void com_lingavin_gplayer_MediaPlayer_nativeSetup(JNIEnv* env,jobject thi
 	setMediaPlayer(env, thiz, mp);
 }
 
-/********************************************************/
 static jboolean com_lingavin_gplayer_MediaPlayer_nativeIsPlaying(JNIEnv *env, jobject thiz){
 	MediaPlayer *mp = getMediaPlayer(env, thiz);
 	return mp->isPlaying();
-
 }
 
 
@@ -87,6 +85,26 @@ static void com_lingavin_gplayer_MediaPlayer_setVideoSurface(JNIEnv* env, jobjec
 
 	mp->setVideoSurface(env, jsurface);
 }
+
+static jint com_lingavin_gplayer_MediaPlayer_nativeDuration(JNIEnv* env, jobject thiz){
+	MediaPlayer* mp = getMediaPlayer(env,thiz);
+	if(mp == NULL){
+		ERROR("setVideoSurface error : mp is null");
+		return 0;
+	}
+	return mp->getDuration();
+}
+
+static jint com_lingavin_gplayer_MediaPlayer_nativeCurrentPosition(JNIEnv* env, jobject thiz){
+	MediaPlayer* mp = getMediaPlayer(env,thiz);
+	if(mp == NULL){
+		ERROR("setVideoSurface error : mp is null");
+		return 0;
+	}
+	return mp->getCurrentPosition();
+}
+
+/********************************************************/
 
 static void com_lingavin_gplayer_MediaPlayer_nativeInit(JNIEnv* env){
 	jclass clazz = env->FindClass(kClassPathName);
@@ -140,6 +158,8 @@ static JNINativeMethod gMethods[] = {
 	{"nativeStart", "()V", (void *)com_lingavin_gplayer_MediaPlayer_nativeStart},
 	{"nativeSuspend", "()V", (void *)com_lingavin_gplayer_MediaPlayer_nativeSuspend},
 	{"nativeIsPlaying", "()Z", (void *)com_lingavin_gplayer_MediaPlayer_nativeIsPlaying},
+	{"nativeDuration", "()I", (void *)com_lingavin_gplayer_MediaPlayer_nativeDuration},
+	{"nativeCurrentPosition", "()I", (void *)com_lingavin_gplayer_MediaPlayer_nativeCurrentPosition},
 };
 
 int register_com_lingavin_gplayer_mediaplayer(JNIEnv* env){

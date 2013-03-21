@@ -53,6 +53,8 @@ class MediaPlayer{
 		status_t start();
 		status_t suspend();
 		bool isPlaying();
+		int getDuration();
+		int getCurrentPosition();
 
 	private:
 		media_player_status mCurrentState;
